@@ -2,7 +2,7 @@ package com.donalola.authentication;
 
 import com.donalola.authentication.dto.AuthenticationResponseDto;
 
-public interface AuthenticationManager {
+public interface ApiAuthenticationManager {
 
     AuthenticationResponseDto authenticateWithUsernameAndPassword(String username, String password);
 

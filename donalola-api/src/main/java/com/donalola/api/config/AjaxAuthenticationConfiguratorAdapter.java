@@ -7,14 +7,12 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.filter.GenericFilterBean;
 
-//@Order(Ordered.HIGHEST_PRECEDENCE + 100)
-//@Configuration
+@Order(Ordered.HIGHEST_PRECEDENCE + 100)
+@Configuration
 public class AjaxAuthenticationConfiguratorAdapter extends BaseSecurityConfiguratorAdapter {
 
     public static final String AJAX_BASED_ENTRY_POINT = "/api/auth/**";
@@ -22,13 +20,13 @@ public class AjaxAuthenticationConfiguratorAdapter extends BaseSecurityConfigura
     public static final String AJAX_BASED_LOGOUT_ENTRY_POINT = "/api/auth/logout";
 
     protected GenericFilterBean buildAuthenticationFilter() throws Exception {
-        AjaxAuthenticationFilter filter = new  AjaxAuthenticationFilter(AJAX_BASED_LOGIN_ENTRY_POINT);
+        AjaxAuthenticationFilter filter = new AjaxAuthenticationFilter(AJAX_BASED_LOGIN_ENTRY_POINT);
         filter.setAuthenticationManager(authenticationManager());
         return filter;
     }
 
-    protected GenericFilterBean buildRequestWrapperFilter () throws Exception {
-       return new RequestWrapperFilter(new AntPathRequestMatcher(AJAX_BASED_LOGIN_ENTRY_POINT));
+    protected GenericFilterBean buildRequestWrapperFilter() {
+        return new RequestWrapperFilter(new AntPathRequestMatcher(AJAX_BASED_LOGIN_ENTRY_POINT));
     }
 
 
@@ -48,14 +46,6 @@ public class AjaxAuthenticationConfiguratorAdapter extends BaseSecurityConfigura
 
     protected String getUrlEntryPoint() {
         return AJAX_BASED_ENTRY_POINT;
-    }
-
-    protected AuthenticationEntryPoint getAuthenticationEntryPoint() {
-        return null;
-    }
-
-    protected CorsFilter getCorsFilter() {
-        return null;
     }
 
     protected AuthenticationProvider getAuthenticationProvider() {

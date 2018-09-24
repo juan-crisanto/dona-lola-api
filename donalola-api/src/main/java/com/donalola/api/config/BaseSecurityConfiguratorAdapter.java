@@ -1,5 +1,9 @@
 package com.donalola.api.config;
 
+import com.donalola.api.ApiAuthenticationEntyPoint;
+import com.donalola.api.filter.cors.CustomCorsFilter;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +18,12 @@ public abstract class BaseSecurityConfiguratorAdapter extends WebSecurityConfigu
     /*
     Configuring Security Authentication Manager
      */
+
+    @Setter(onMethod = @__(@Autowired))
+    private CustomCorsFilter customCorsFilter;
+
+    @Setter(onMethod = @__(@Autowired))
+    private ApiAuthenticationEntyPoint apiAuthenticationEntyPoint;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -35,9 +45,15 @@ public abstract class BaseSecurityConfiguratorAdapter extends WebSecurityConfigu
 
     protected abstract String getUrlEntryPoint();
 
-    protected abstract AuthenticationEntryPoint getAuthenticationEntryPoint();
+    protected AuthenticationEntryPoint getAuthenticationEntryPoint() {
+        return this.apiAuthenticationEntyPoint;
+    }
 
-    protected abstract CorsFilter getCorsFilter();
+    protected CorsFilter getCorsFilter() {
+        return this.customCorsFilter;
+    }
+
+    ;
 
     protected abstract AuthenticationProvider getAuthenticationProvider();
 

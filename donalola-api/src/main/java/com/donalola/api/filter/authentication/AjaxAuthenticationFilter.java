@@ -5,8 +5,6 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +23,6 @@ public class AjaxAuthenticationFilter extends AbstractAuthenticationProcessingFi
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
 
-        return null;
+        return this.getAuthenticationManager().authenticate(null);
     }
 }
