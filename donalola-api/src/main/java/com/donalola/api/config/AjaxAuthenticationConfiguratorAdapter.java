@@ -2,17 +2,14 @@ package com.donalola.api.config;
 
 import com.donalola.api.filter.RequestWrapperFilter;
 import com.donalola.api.filter.authentication.AjaxAuthenticationFilter;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.filter.GenericFilterBean;
 
-@Order(Ordered.HIGHEST_PRECEDENCE + 100)
-@Configuration
+//@Order(Ordered.HIGHEST_PRECEDENCE + 100)
+//@Configuration
 public class AjaxAuthenticationConfiguratorAdapter extends BaseSecurityConfiguratorAdapter {
 
     public static final String AJAX_BASED_ENTRY_POINT = "/api/auth/**";

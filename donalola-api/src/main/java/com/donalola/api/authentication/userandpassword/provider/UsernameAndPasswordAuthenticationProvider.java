@@ -1,6 +1,6 @@
-package com.donalola.api.authentication.provider;
+package com.donalola.api.authentication.userandpassword.provider;
 
-import com.donalola.api.authentication.token.JsonUsernamePasswordAuthenticationToken;
+import com.donalola.api.authentication.userandpassword.token.JsonUsernamePasswordAuthenticationToken;
 import com.donalola.authentication.ApiAuthenticationManager;
 import com.donalola.authentication.dto.AuthenticationResponseDto;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,4 +1,4 @@
-package com.donalola.api.authentication.token;
+package com.donalola.api.authentication.userandpassword.token;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
