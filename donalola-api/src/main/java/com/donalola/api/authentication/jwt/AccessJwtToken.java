@@ -1,6 +1,7 @@
 package com.donalola.api.authentication.jwt;
 
 import io.jsonwebtoken.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 
@@ -10,6 +11,11 @@ public class AccessJwtToken implements JwtToken {
 
     private final String token;
     private final String tokenId;
+
+    public AccessJwtToken(String token) {
+        this.token = token;
+        this.tokenId = StringUtils.EMPTY;
+    }
 
     public AccessJwtToken(String token, String tokenId) {
         this.token = token;
