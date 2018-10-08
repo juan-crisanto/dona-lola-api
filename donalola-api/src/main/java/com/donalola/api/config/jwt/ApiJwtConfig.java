@@ -1,6 +1,5 @@
 package com.donalola.api.config.jwt;
 
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -14,18 +13,6 @@ public class ApiJwtConfig implements JwtConfig {
     @Value("${jwt.tokenIssuer}")
     private String tokenIssuer;
 
-    @Value("${jwt.tokenSigningKey}")
-    private String tokenSigningKey;
-
-    @Value("${jwt.tokenExpirationTime}")
-    private int tokenExpirationTime;
-
-    @Value("${jwt.refreshTokenExpTime}")
-    private int refreshTokenExpTime;
-
-    @Value("${jwt.temporalAccessTokenExpTime}")
-    private int temporalAccessTokenExpTime;
-
     @Value("${jwt.header}")
     private String authHeader;
 
@@ -38,5 +25,9 @@ public class ApiJwtConfig implements JwtConfig {
     @Value("#{'${jwt.mustBePresentIn}'.split(',')}")
     private List<String> mustBePresentIn;
 
-    private SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+    @Value("${jwt.aws.region}")
+    private String awsRegion;
+
+    @Value(("${jwt.aws.poolId}"))
+    private String cognitoUserPoolId;
 }

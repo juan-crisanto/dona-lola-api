@@ -1,7 +1,7 @@
 package com.donalola.api.authentication.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
+import org.jose4j.jwt.JwtClaims;
+import org.jose4j.jwt.consumer.JwtConsumer;
 
 import java.io.Serializable;
 
@@ -9,7 +9,7 @@ public interface JwtToken extends Serializable {
 
     String getToken();
 
-    String getTokenId();
+    String getKeyId();
 
-    Jws<Claims> parseClaims(String signingKey);
+    JwtClaims parseClaims(JwtConsumer jwtConsumer);
 }

@@ -1,6 +1,6 @@
 package com.donalola.api.filter.authentication;
 
-import com.donalola.api.authentication.jwt.AccessJwtToken;
+import com.donalola.api.authentication.jwt.AWSCognitoToken;
 import com.donalola.api.authentication.jwt.JwtToken;
 import com.donalola.api.authentication.jwt.token.JwtAuthenticationToken;
 import com.donalola.api.authentication.util.TokenExtractorUtil;
@@ -10,7 +10,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -18,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@Component
 public class JwtTokenAccessAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     private final TokenExtractorUtil tokenExtractorUtil;
@@ -31,7 +29,7 @@ public class JwtTokenAccessAuthenticationFilter extends AbstractAuthenticationPr
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         String token = this.tokenExtractorUtil.extract(request);
-        JwtToken rawJwtToken = new AccessJwtToken(token);
+        JwtToken rawJwtToken = new AWSCognitoToken(token);
         return this.getAuthenticationManager().authenticate(new JwtAuthenticationToken(rawJwtToken));
     }
 

@@ -18,6 +18,7 @@ public class JwtAuthenticationToken implements Authentication {
     private Optional<JwtToken> rawAccessToken;
     private final List<GrantedAuthority> authorityList;
     private final Optional<UserDetails> authenticatedUser;
+    private String principal;
 
     public JwtAuthenticationToken(JwtToken jwtToken) {
         this.authenticated = false;
@@ -26,10 +27,14 @@ public class JwtAuthenticationToken implements Authentication {
         this.authenticatedUser = Optional.empty();
     }
 
-    public JwtAuthenticationToken(UserDetails authenticatedUser, List<GrantedAuthority> authorityList) {
+    public JwtAuthenticationToken(String principal, List<GrantedAuthority> authorityList, UserDetails authenticatedUser) {
         this.authenticated = true;
         this.rawAccessToken = Optional.empty();
         this.authenticatedUser = Optional.of(authenticatedUser);
+        if (!this.authenticatedUser.isPresent()) {
+            throw new IllegalStateException();
+        }
+        this.principal = principal;
         this.authorityList = authorityList;
     }
 
@@ -45,14 +50,11 @@ public class JwtAuthenticationToken implements Authentication {
     }
 
     public Object getDetails() {
-        return null;
+        return this.authenticatedUser.get();
     }
 
     public Object getPrincipal() {
-        if (this.authenticatedUser.isPresent()) {
-            return this.authenticatedUser.get();
-        }
-        throw new IllegalStateException();
+        return this.principal;
     }
 
     public boolean isAuthenticated() {
@@ -64,9 +66,6 @@ public class JwtAuthenticationToken implements Authentication {
     }
 
     public String getName() {
-        if (this.authenticatedUser.isPresent()) {
-            return this.authenticatedUser.get().getUsername();
-        }
-        throw new IllegalStateException();
+        return this.principal;
     }
 }

@@ -15,7 +15,7 @@ public class SkiptPathRequestMatcher implements RequestMatcher {
     private RequestMatcher processingMatcher;
 
     public SkiptPathRequestMatcher(List<String> pathsToSkip, String processingPath) {
-        Assert.notNull(pathsToSkip);
+        Assert.notNull(pathsToSkip, "Path to skip required");
 
         List<RequestMatcher> requestMatchers = new ArrayList<>(pathsToSkip.size());
 

@@ -1,5 +1,6 @@
 package com.donalola.api.config;
 
+import com.donalola.api.authentication.jwt.provider.JwtAuthenticationProvider;
 import com.donalola.api.authentication.util.TokenExtractorUtil;
 import com.donalola.api.filter.authentication.JwtTokenAccessAuthenticationFilter;
 import com.donalola.api.util.matcher.SkiptPathRequestMatcher;
@@ -10,12 +11,13 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.filter.GenericFilterBean;
 
 import java.util.Arrays;
 import java.util.List;
 
-@Order(Ordered.HIGHEST_PRECEDENCE + 101)
+@Order(Ordered.HIGHEST_PRECEDENCE + 100)
 @Configuration
 public class JwtAuthenticationConfigutorAdapter extends BaseSecurityConfiguratorAdapter {
 
@@ -26,9 +28,12 @@ public class JwtAuthenticationConfigutorAdapter extends BaseSecurityConfigurator
     @Setter(onMethod = @__(@Autowired))
     private TokenExtractorUtil tokenExtractorUtil;
 
+    @Setter(onMethod = @__(@Autowired))
+    private JwtAuthenticationProvider authenticationProvider;
+
     protected GenericFilterBean buildAuthenticationFilter() throws Exception {
         List<String> pathsToSkip = Arrays.asList(TOKEN_BASED_EXCLUDED_PATH, TOKEN_REFRESH_ENTRY_POINT);
-        SkiptPathRequestMatcher skiptPathRequestMatcher = new SkiptPathRequestMatcher(pathsToSkip, TOKEN_BASED_EXCLUDED_PATH);
+        SkiptPathRequestMatcher skiptPathRequestMatcher = new SkiptPathRequestMatcher(pathsToSkip, TOKEN_BASED_AUTH_ENTRY_POINT);
         JwtTokenAccessAuthenticationFilter filter = new JwtTokenAccessAuthenticationFilter(skiptPathRequestMatcher, this.tokenExtractorUtil);
         filter.setAuthenticationManager(authenticationManager());
         return filter;
@@ -39,7 +44,7 @@ public class JwtAuthenticationConfigutorAdapter extends BaseSecurityConfigurator
     }
 
     protected AuthenticationProvider getAuthenticationProvider() {
-        return null;
+        return authenticationProvider;
     }
 
     @Override
@@ -48,6 +53,8 @@ public class JwtAuthenticationConfigutorAdapter extends BaseSecurityConfigurator
         http.authorizeRequests()
                 .antMatchers(TOKEN_REFRESH_ENTRY_POINT).permitAll()
                 .antMatchers(TOKEN_BASED_EXCLUDED_PATH).permitAll()
-                .antMatchers(TOKEN_BASED_AUTH_ENTRY_POINT).authenticated();
+                .antMatchers(TOKEN_BASED_AUTH_ENTRY_POINT).authenticated()
+                .and()
+                .addFilterBefore(buildAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
