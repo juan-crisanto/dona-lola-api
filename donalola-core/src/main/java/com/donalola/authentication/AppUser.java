@@ -1,5 +1,7 @@
 package com.donalola.authentication;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,8 +11,14 @@ import java.util.List;
 
 public class AppUser implements UserDetails {
 
+    @Setter
     private String username;
+    @Getter
+    @Setter
+    private String email;
+    @Setter
     private String password;
+    @Setter
     private List<? extends GrantedAuthority> authorities;
 
     public Collection<? extends GrantedAuthority> getAuthorities() {

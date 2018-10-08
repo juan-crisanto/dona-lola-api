@@ -11,7 +11,6 @@
         <module>donalola-commons</module>
         <module>donalola-core</module>
         <module>donalola-services</module>
-        <module>donalola-auth</module>
         <module>donalola-api</module>
     </modules>
     <packaging>pom</packaging>
@@ -24,15 +23,53 @@
         <spring-boot-starter.web.version>2.0.5.RELEASE</spring-boot-starter.web.version>
         <spring-boot-starter.security.version>2.0.5.RELEASE</spring-boot-starter.security.version>
         <spring-boot-starter.data.version>2.0.5.RELEASE</spring-boot-starter.data.version>
+        <jackson.version>2.9.6</jackson.version>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencyManagement>
         <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>2.22.0</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.8.1</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.bitbucket.b_c/jose4j -->
+            <dependency>
+                <groupId>org.bitbucket.b_c</groupId>
+                <artifactId>jose4j</artifactId>
+                <version>0.6.4</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt</artifactId>
                 <version>0.9.0</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>3.4.0</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
             <dependency>
@@ -64,6 +101,24 @@
                 <artifactId>lombok</artifactId>
                 <version>1.18.2</version>
                 <!--<scope>provided</scope>-->
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

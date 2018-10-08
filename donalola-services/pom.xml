@@ -12,14 +12,12 @@
 
     <artifactId>donalola-services</artifactId>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${project.parent.groupId}</groupId>
-                <artifactId>donalola-dependencies</artifactId>
-                <version>${project.parent.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>donalola-core</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>
