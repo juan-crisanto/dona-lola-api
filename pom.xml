@@ -11,7 +11,6 @@
         <module>donalola-commons</module>
         <module>donalola-core</module>
         <module>donalola-services</module>
-        <module>donalola-auth</module>
         <module>donalola-api</module>
     </modules>
     <packaging>pom</packaging>
