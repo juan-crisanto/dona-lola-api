@@ -1,6 +1,6 @@
 package com.donalola.foodplaces.dao.entity;
 
-import com.donalola.core.BaseEntity;
+import com.donalola.core.dao.entity.BaseEntity;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -8,21 +8,24 @@ import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name = "food-place")
+@Table(name = "FOOD_PLACE")
 public class FoodPlaceEntity extends BaseEntity implements Serializable {
 
     @Id
+    @Column(name = "ID", updatable = false, insertable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(nullable = false)
+    @Column(name = "NAME", nullable = false)
     private String name;
+    @Column(name = "PHOTO_URL")
     private String photoUrl;
+    @Column(name = "DISTRICT")
     private String district;
-    @Column(nullable = false)
+    @Column(name = "ADDRESS", nullable = false)
     private String address;
-    @Column(nullable = false)
+    @Column(name = "LATITUDE", nullable = false)
     private Long latitude;
-    @Column(nullable = false)
+    @Column(name = "LONGITUDE", nullable = false)
     private Long longitude;
 
 

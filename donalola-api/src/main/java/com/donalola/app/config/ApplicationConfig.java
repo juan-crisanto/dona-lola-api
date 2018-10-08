@@ -23,7 +23,8 @@ import java.lang.reflect.Method;
 @ComponentScan(basePackages = "com.donalola")
 @PropertySources({
         @PropertySource("classpath:cors.properties"),
-        @PropertySource("classpath:jwt.properties")
+        @PropertySource("classpath:jwt.properties"),
+        @PropertySource("classpath:dao.properties")
 })
 public class ApplicationConfig {
 
