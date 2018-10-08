@@ -1,5 +1,6 @@
 package com.donalola.foodplaces.rest.service;
 
+import com.donalola.foodplaces.FoodPlaceManager;
 import com.donalola.foodplaces.dto.FindNearbyFoodPlacesRequestDto;
 import com.donalola.foodplaces.dto.FindNearbyFoodPlacesResponseDto;
 import org.springframework.http.MediaType;
@@ -15,9 +16,15 @@ import javax.validation.Valid;
 @RequestMapping("foodPlace")
 public class FoodPlaceRestService {
 
-    @RequestMapping(value = "/nearby", method = {RequestMethod.GET, RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    private final FoodPlaceManager foodPlaceManager;
+
+    public FoodPlaceRestService(FoodPlaceManager foodPlaceManager) {
+        this.foodPlaceManager = foodPlaceManager;
+    }
+
+    @RequestMapping(value = "/listNearby", method = {RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public FindNearbyFoodPlacesResponseDto findNearby(@Valid @RequestBody FindNearbyFoodPlacesRequestDto requestDto, BindingResult bindingResult) {
-        return new FindNearbyFoodPlacesResponseDto();
+        return (FindNearbyFoodPlacesResponseDto) this.foodPlaceManager.proceed(requestDto);
     }
 
 }

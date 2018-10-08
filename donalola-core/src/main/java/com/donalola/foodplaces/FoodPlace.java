@@ -1,6 +1,6 @@
 package com.donalola.foodplaces;
 
-import com.donalola.core.Locale;
+import com.donalola.core.Location;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,6 +14,6 @@ public class FoodPlace implements Serializable {
     private String name;
     private String photoUrl;
 
-    private Locale locale;
+    private Location location;
 
 }

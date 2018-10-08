@@ -24,9 +24,9 @@ public class FoodPlaceEntity extends BaseEntity implements Serializable {
     @Column(name = "ADDRESS", nullable = false)
     private String address;
     @Column(name = "LATITUDE", nullable = false)
-    private Long latitude;
+    private String latitude;
     @Column(name = "LONGITUDE", nullable = false)
-    private Long longitude;
+    private String longitude;
 
 
 }

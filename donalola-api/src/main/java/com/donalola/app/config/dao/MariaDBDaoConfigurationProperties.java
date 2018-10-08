@@ -23,7 +23,7 @@ public class MariaDBDaoConfigurationProperties implements ConfigDaoProperties {
     private String jdbcUrl;
     @Value("${mariadb.dataBaseSchema}")
     private String dataBaseSchema;
-    @Value("{mariadb.username}")
+    @Value("${mariadb.username}")
     private String username;
     @Value("${mariadb.credentials}")
     private String credentials;
