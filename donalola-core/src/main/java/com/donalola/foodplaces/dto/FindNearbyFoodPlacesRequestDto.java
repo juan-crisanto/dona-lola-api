@@ -10,11 +10,12 @@ import javax.validation.constraints.Pattern;
 @Data
 public class FindNearbyFoodPlacesRequestDto implements FoodPlaceRequestDto {
 
+    private static final long serialVersionUID = -8353473616261973073L;
     @Pattern(regexp = ValidationRegex.CHORDS_REGEX, message = FoodPlacesErrorsCode.COORDINATES_ARE_NEEDED)
-    private String latitude;
+    private double latitude;
     @Pattern(regexp = ValidationRegex.CHORDS_REGEX, message = FoodPlacesErrorsCode.COORDINATES_ARE_NEEDED)
-    private String longitude;
+    private double longitude;
     @NotNull(message = FoodPlacesErrorsCode.METERS_AROUND_NECESARY)
-    private Integer metersAround;
+    private int radius;
 
 }

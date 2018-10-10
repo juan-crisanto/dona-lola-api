@@ -1,4 +1,6 @@
 package com.donalola.foodplaces.dto;
 
-public interface FoodPlaceRequestDto {
+import java.io.Serializable;
+
+public interface FoodPlaceRequestDto extends Serializable {
 }
