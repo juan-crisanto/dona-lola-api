@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
 
 //@SpringBootApplication
 @EnableGlobalMethodSecurity(jsr250Enabled = true, securedEnabled = true)
-@EnableWebMvc
+//@EnableWebMvc
 @EnableWebSecurity
 @Configuration
 @Order(Ordered.HIGHEST_PRECEDENCE + 1)
