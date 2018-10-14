@@ -24,7 +24,8 @@ import java.lang.reflect.Method;
 @PropertySources({
         @PropertySource("classpath:cors.properties"),
         @PropertySource("classpath:jwt.properties"),
-        @PropertySource("classpath:dao.properties")
+        @PropertySource("classpath:dao.properties"),
+        @PropertySource("classpath:dynamodb.properties")
 })
 public class ApplicationConfig {
 
