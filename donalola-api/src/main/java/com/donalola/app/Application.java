@@ -2,6 +2,7 @@ package com.donalola.app;
 
 
 import com.donalola.app.config.ApplicationConfig;
+import com.donalola.app.config.SwaggerConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -9,7 +10,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.context.annotation.Import;
 
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, SecurityAutoConfiguration.class})
-@Import(ApplicationConfig.class)
+@Import({ApplicationConfig.class, SwaggerConfig.class})
 public class Application {
 
     public static void main(String... args) {
