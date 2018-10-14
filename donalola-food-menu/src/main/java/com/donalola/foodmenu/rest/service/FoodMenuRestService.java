@@ -7,4 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/food-menu")
 public class FoodMenuRestService extends BaseController {
+
+
 }
