@@ -53,8 +53,6 @@ public abstract class BaseSecurityConfiguratorAdapter extends WebSecurityConfigu
         return this.customCorsFilter;
     }
 
-    ;
-
     protected abstract AuthenticationProvider getAuthenticationProvider();
 
 }
