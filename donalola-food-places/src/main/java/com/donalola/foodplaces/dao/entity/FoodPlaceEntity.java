@@ -13,6 +13,7 @@ import java.io.Serializable;
 @Table(name = "FOOD_PLACE")
 public class FoodPlaceEntity extends BaseEntity implements Serializable {
 
+    private static final long serialVersionUID = -7656802625497475155L;
     @Id
     @Column(name = "ID", updatable = false, insertable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
