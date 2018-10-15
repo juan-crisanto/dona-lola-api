@@ -6,12 +6,11 @@ import com.donalola.foodmenu.domain.factory.FoodMenuFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -38,5 +37,11 @@ public class FoodMenuRestService extends BaseController {
         return this.foodMenuFactory.create(this.foodMenuManager.add(this.foodMenuFactory.create(foodMenu)));
     }
 
+    @GetMapping(value = "/local/{idLocal}")
+    public List<FoodMenuJson> getByLocal(@PathVariable String idLocal, Principal principal) {
+        List<FoodMenuJson> menuJsonList = new ArrayList<>();
+        this.foodMenuManager.getByFoodPlace(idLocal).forEach(foodMenu -> menuJsonList.add(this.foodMenuFactory.create(foodMenu)));
+        return menuJsonList;
+    }
 
 }

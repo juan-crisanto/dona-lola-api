@@ -12,5 +12,9 @@ public class ItemMenu {
     private String name;
     private String description;
     private BigDecimal price;
+    private Integer quantityAvailable;
 
+    public boolean isAnyAvailable() {
+        return this.getQuantityAvailable() > 0;
+    }
 }

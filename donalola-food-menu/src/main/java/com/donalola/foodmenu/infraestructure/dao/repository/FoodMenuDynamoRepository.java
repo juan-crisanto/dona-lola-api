@@ -2,6 +2,7 @@ package com.donalola.foodmenu.infraestructure.dao.repository;
 
 import com.donalola.foodmenu.FoodMenu;
 import com.donalola.foodmenu.FoodMenus;
+import com.donalola.foodmenu.JustToIterateFoodMenus;
 import com.donalola.foodmenu.domain.dao.repository.FoodMenuRepository;
 import com.donalola.foodmenu.domain.factory.FoodMenuFactory;
 import com.donalola.foodmenu.infraestructure.dao.entity.FoodMenuDynamoEntity;
@@ -44,7 +45,7 @@ public class FoodMenuDynamoRepository implements FoodMenuRepository, FoodMenus {
         List<FoodMenuDynamoEntity> entityList = this.foodMenuDynamoCrudRepository.findFoodMenuDynamoEntitiesByIdFoodPlaceIs(idFoodPlace);
         List<FoodMenu> foodMenuList = new ArrayList<>(CollectionUtils.size(entityList));
         entityList.stream().forEach(foodMenuDynamoEntity -> foodMenuList.add(this.foodMenuFactory.create(foodMenuDynamoEntity)));
-        return (FoodMenus) foodMenuList;
+        return new JustToIterateFoodMenus(foodMenuList.iterator());
     }
 
     @Override
