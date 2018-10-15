@@ -26,7 +26,7 @@ public class FoodPlacesLocationServiceImpl implements FoodPlacesLocationService 
 
     @Override
     public FindNearbyFoodPlacesResponseDto getNearbyPlaces(FindNearbyFoodPlacesRequestDto request, List<FoodPlaceEntity> foodPlaceEntityList) {
-        GeoLocation origin = new GeoLocation(request.getLatitude(), request.getLatitude());
+        GeoLocation origin = new GeoLocation(request.getLatitude(), request.getLongitude());
 
         List<GeoLocation> places = foodPlaceEntityList.stream().map(f -> new GeoLocation(Double.parseDouble(f.getLatitude()), Double.parseDouble(f.getLongitude()))).collect(Collectors.toList());
 
