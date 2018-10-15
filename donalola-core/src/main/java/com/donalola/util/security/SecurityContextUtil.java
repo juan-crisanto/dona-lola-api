@@ -1,4 +1,4 @@
-package com.donalola.security.util;
+package com.donalola.util.security;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 
