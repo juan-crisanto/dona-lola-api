@@ -1,5 +1,6 @@
 package com.donalola.foodplaces.rest.service;
 
+import com.donalola.core.rest.service.BaseController;
 import com.donalola.foodplaces.FoodPlaceManager;
 import com.donalola.foodplaces.dto.FindNearbyFoodPlacesRequestDto;
 import com.donalola.foodplaces.dto.FindNearbyFoodPlacesResponseDto;
@@ -13,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("foodPlace")
-public class FoodPlaceRestService {
+@RequestMapping("api/foodPlace")
+public class FoodPlaceRestService extends BaseController {
 
     private final FoodPlaceManager foodPlaceManager;
 
