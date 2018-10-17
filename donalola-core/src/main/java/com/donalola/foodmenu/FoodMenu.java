@@ -5,6 +5,7 @@ import lombok.Data;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -12,7 +13,9 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Data
-public class FoodMenu {
+public class FoodMenu implements Serializable {
+
+    private static final long serialVersionUID = 866445157546391021L;
 
     public enum Status {
 

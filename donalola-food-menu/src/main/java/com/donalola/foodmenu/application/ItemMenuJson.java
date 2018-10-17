@@ -1,6 +1,5 @@
 package com.donalola.foodmenu.application;
 
-import com.donalola.foodmenu.ItemMenu;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,8 +10,8 @@ import java.math.BigDecimal;
 @Data
 public class ItemMenuJson {
 
-    private String idMenu;
     private String id;
+    private String menuId;
     @NotNull
     private String name;
     private String description;
@@ -21,14 +20,4 @@ public class ItemMenuJson {
     @NotNull
     private Integer quantityAvailable;
     private Integer takenOrders;
-
-    public ItemMenuJson(ItemMenu itemMenu) {
-        this.idMenu = itemMenu.getIdMenu();
-        this.id = itemMenu.getId();
-        this.name = itemMenu.getName();
-        this.description = itemMenu.getDescription();
-        this.price = itemMenu.getPrice();
-        this.quantityAvailable = itemMenu.getQuantityAvailable();
-        this.takenOrders = itemMenu.getTakenOrders();
-    }
 }

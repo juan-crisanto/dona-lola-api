@@ -1,14 +1,19 @@
 package com.donalola.foodmenu.application;
 
 import com.donalola.foodmenu.FoodMenu;
+import com.donalola.foodmenu.FoodMenuTestUtil;
+import com.donalola.foodmenu.ItemMenu;
 import com.donalola.foodmenu.domain.factory.FoodMenuFactory;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class FromJsonFoodMenuFactoryTest {
@@ -52,5 +57,37 @@ public class FromJsonFoodMenuFactoryTest {
         Assert.assertTrue(Optional.ofNullable(foodMenu.getCreatedDatetime()).isPresent());
         Assert.assertNotNull(foodMenu.getItems());
         Assert.assertTrue(CollectionUtils.size(foodMenu.getItems()) == 1);
+    }
+
+    private FoodMenu createFoodMenu() {
+        FoodMenu foodMenu = new FoodMenu();
+        foodMenu.setCreatedDatetime(LocalDateTime.now());
+        foodMenu.setFoodPlaceId("1");
+        foodMenu.setId("aabads-dar3rrfsf-afasf2");
+        foodMenu.setName("Menú Regular");
+        foodMenu.setStatus(FoodMenu.Status.OPEN);
+        return foodMenu;
+    }
+
+    @Test
+    public void createJsonWithoutItems() {
+        FoodMenu foodMenu = createFoodMenu();
+        FoodMenuJson json = this.factory.create(foodMenu);
+        Assert.assertNotNull(json);
+        Assert.assertTrue(StringUtils.equals(foodMenu.getId(), json.getId()));
+        Assert.assertTrue(CollectionUtils.isEmpty(json.getItems()));
+        System.out.println(json);
+    }
+
+    @Test
+    public void createJsonWithItems() {
+        FoodMenu foodMenu = createFoodMenu();
+        List<ItemMenu> itemMenuList = Arrays.asList(FoodMenuTestUtil.createItem());
+        foodMenu.setItems(itemMenuList);
+        FoodMenuJson json = this.factory.create(foodMenu);
+        Assert.assertNotNull(json);
+        Assert.assertTrue(StringUtils.equals(foodMenu.getId(), json.getId()));
+        Assert.assertTrue(CollectionUtils.size(json.getItems()) == 1);
+        System.out.println(json);
     }
 }

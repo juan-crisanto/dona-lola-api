@@ -9,13 +9,11 @@ public class FromJsonFoodMenuFactory implements FoodMenuFactory<FoodMenuJson> {
 
     @Override
     public FoodMenu create(final FoodMenuJson foodMenuSource) {
-        FoodMenu foodMenu = FoodMenuJsonToDomainMapper.MAPPER.jsonToDomain(foodMenuSource);
-        return foodMenu;
+        return FoodMenuJsonToDomainMapper.MAPPER.jsonToDomain(foodMenuSource);
     }
 
     @Override
     public FoodMenuJson create(FoodMenu foodMenu) {
-        FoodMenuJson json = FoodMenuJsonToDomainMapper.MAPPER.domainToJson(foodMenu);
-        return json;
+        return FoodMenuJsonToDomainMapper.MAPPER.domainToJson(foodMenu);
     }
 }
