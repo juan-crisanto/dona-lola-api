@@ -9,6 +9,6 @@ import java.util.List;
 @EnableScan
 public interface FoodMenuDynamoCrudRepository extends CrudRepository<FoodMenuDynamoEntity, String> {
 
-    List<FoodMenuDynamoEntity> findFoodMenuDynamoEntitiesByIdFoodPlaceIs(String id);
+    List<FoodMenuDynamoEntity> findFoodMenuDynamoEntitiesByFoodPlaceId(String id);
 
 }

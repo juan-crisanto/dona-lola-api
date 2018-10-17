@@ -42,7 +42,7 @@ public class FoodMenuDynamoRepository implements FoodMenuRepository, FoodMenus {
 
     @Override
     public FoodMenus listByFoodPlace(String idFoodPlace) {
-        List<FoodMenuDynamoEntity> entityList = this.foodMenuDynamoCrudRepository.findFoodMenuDynamoEntitiesByIdFoodPlaceIs(idFoodPlace);
+        List<FoodMenuDynamoEntity> entityList = this.foodMenuDynamoCrudRepository.findFoodMenuDynamoEntitiesByFoodPlaceId(idFoodPlace);
         List<FoodMenu> foodMenuList = new ArrayList<>(CollectionUtils.size(entityList));
         entityList.stream().forEach(foodMenuDynamoEntity -> foodMenuList.add(this.foodMenuFactory.create(foodMenuDynamoEntity)));
         return new JustToIterateFoodMenus(foodMenuList.iterator());

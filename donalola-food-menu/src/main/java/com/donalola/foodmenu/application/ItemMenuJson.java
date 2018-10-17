@@ -20,6 +20,7 @@ public class ItemMenuJson {
     private BigDecimal price;
     @NotNull
     private Integer quantityAvailable;
+    private Integer takenOrders;
 
     public ItemMenuJson(ItemMenu itemMenu) {
         this.idMenu = itemMenu.getIdMenu();
@@ -28,5 +29,6 @@ public class ItemMenuJson {
         this.description = itemMenu.getDescription();
         this.price = itemMenu.getPrice();
         this.quantityAvailable = itemMenu.getQuantityAvailable();
+        this.takenOrders = itemMenu.getTakenOrders();
     }
 }

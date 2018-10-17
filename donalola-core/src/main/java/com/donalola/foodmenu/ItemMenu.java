@@ -13,8 +13,14 @@ public class ItemMenu {
     private String description;
     private BigDecimal price;
     private Integer quantityAvailable;
+    private Integer takenOrders;
 
-    public boolean isAnyAvailable() {
-        return this.getQuantityAvailable() > 0;
+    public Integer getAvailable() {
+        return (this.getQuantityAvailable() - this.getTakenOrders());
     }
+
+    public boolean isAvailable() {
+        return (this.getQuantityAvailable() - this.getTakenOrders()) > 0;
+    }
+
 }
