@@ -9,4 +9,6 @@ public interface FoodMenuManager {
 
     FoodMenus getByFoodPlace(String foodPlaceId);
 
+    FoodMenus listTodayFoodPlaceMenus(String foodPlaceId);
+
 }

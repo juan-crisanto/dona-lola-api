@@ -3,6 +3,7 @@ package com.donalola.foodmenu.application;
 import com.donalola.core.rest.service.BaseController;
 import com.donalola.foodmenu.domain.FoodMenuManager;
 import com.donalola.foodmenu.domain.factory.FoodMenuFactory;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -17,6 +18,11 @@ import java.util.List;
 @RestController
 @RequestMapping(
         value = "/api/food-menu",
+        consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+        produces = MediaType.APPLICATION_JSON_UTF8_VALUE
+)
+@Api(
+        value = "Maneja los servicios sobre menús",
         consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
         produces = MediaType.APPLICATION_JSON_UTF8_VALUE
 )
@@ -40,9 +46,10 @@ public class FoodMenuRestService extends BaseController {
     }
 
     @GetMapping(value = "/local/{idLocal}")
-    public List<FoodMenuJson> getByLocal(@PathVariable String idLocal, Principal principal) {
+    @ApiOperation(value = "Devuelve los menús del día del local indicado")
+    public List<FoodMenuJson> getByLocal(@PathVariable String idLocal) {
         List<FoodMenuJson> menuJsonList = new ArrayList<>();
-        this.foodMenuManager.getByFoodPlace(idLocal).forEach(foodMenu -> menuJsonList.add(this.foodMenuFactory.create(foodMenu)));
+        this.foodMenuManager.listTodayFoodPlaceMenus(idLocal).forEach(foodMenu -> menuJsonList.add(this.foodMenuFactory.create(foodMenu)));
         return menuJsonList;
     }
 

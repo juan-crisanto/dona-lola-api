@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 @EnableScan
-public interface FoodMenuItemDynamoCrudRepository extends CrudRepository<ItemMenuDynamoEntity, String> {
+public interface ItemMenuDynamoCrudRepository extends CrudRepository<ItemMenuDynamoEntity, String> {
 
     List<ItemMenuDynamoEntity> findAllByMenuId(String menuId);
 

@@ -37,8 +37,8 @@ public class JwtTokenHelperImplTest {
         this.jwtTokenHelper = new JwtTokenHelperImpl(this.jwtConfig);
     }
 
-    //@Test(expected = BadCredentialsException.class)
-    @Test
+    @Test(expected = BadCredentialsException.class)
+    //@Test
     public void verifyIdToken() {
         JwtConsumer jwtConsumer = this.jwtTokenHelper.getJwtConsumer();
         Assert.assertNotNull(jwtConsumer);
