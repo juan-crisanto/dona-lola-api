@@ -17,6 +17,10 @@ public class ItemMenu {
     private BigDecimal price;
     private Integer takenOrders;
 
+    public ItemMenu() {
+        this.createdTime = LocalDateTime.now();
+    }
+
     public Integer getAvailable() {
         return (this.getQuantityAvailable() - this.getTakenOrders());
     }
