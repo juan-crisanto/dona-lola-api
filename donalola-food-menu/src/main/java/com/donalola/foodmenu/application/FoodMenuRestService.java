@@ -3,6 +3,7 @@ package com.donalola.foodmenu.application;
 import com.donalola.core.rest.service.BaseController;
 import com.donalola.foodmenu.domain.FoodMenuManager;
 import com.donalola.foodmenu.domain.factory.FoodMenuFactory;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
@@ -29,7 +30,8 @@ public class FoodMenuRestService extends BaseController {
         this.foodMenuFactory = foodMenuFactory;
     }
 
-    @PostMapping(value = "/add")
+    @PutMapping
+    @ApiOperation(value = "Agrega un nuevo menú a un Local. Debe incluir los ítems del menú a ofrecer")
     public FoodMenuJson addMenuWithItems(@RequestBody FoodMenuJson foodMenu, BindingResult bindingResult, Principal principal) {
         if (log.isDebugEnabled()) {
             log.debug("Add for principal: " + principal);

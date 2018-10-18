@@ -21,7 +21,7 @@ public class FoodMenuDynamoEntity {
     @DynamoDBAttribute(attributeName = "foodPlaceId")
     private String foodPlaceId;
 
-    @DynamoDBAttribute(attributeName = "idFoodPlace")
+    @DynamoDBAttribute(attributeName = "foodPlaceName")
     private String foodPlaceName;
 
     @DynamoDBTypeConverted(converter = DynamoDBConverter.LocalDateTimeConverter.class)

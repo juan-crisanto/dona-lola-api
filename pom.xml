@@ -16,6 +16,7 @@
         <module>donalola-api-image</module>
         <module>donalola-configuration</module>
         <module>donalola-food-menu</module>
+        <module>dona-lola-war</module>
     </modules>
     <packaging>pom</packaging>
 
