@@ -5,6 +5,9 @@ import com.donalola.foodmenu.domain.factory.ItemMenuFactory;
 import com.donalola.foodmenu.infraestructure.dao.entity.ItemMenuDynamoEntity;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 @Component
 public class FromDynamoEntityItemMenuFactory implements ItemMenuFactory<ItemMenuDynamoEntity> {
 
@@ -15,6 +18,10 @@ public class FromDynamoEntityItemMenuFactory implements ItemMenuFactory<ItemMenu
 
     @Override
     public ItemMenuDynamoEntity create(ItemMenu itemMenu) {
-        return ItemMenuEntityToDomainMapper.MAPPER.domainToEntity(itemMenu);
+        ItemMenuDynamoEntity entity = ItemMenuEntityToDomainMapper.MAPPER.domainToEntity(itemMenu);
+        if (!Optional.ofNullable(entity.getCreatedTime()).isPresent()) {
+            entity.setCreatedTime(LocalDateTime.now());
+        }
+        return entity;
     }
 }

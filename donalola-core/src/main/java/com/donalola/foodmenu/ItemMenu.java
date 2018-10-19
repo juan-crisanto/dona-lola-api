@@ -1,10 +1,13 @@
 package com.donalola.foodmenu;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+
+@NoArgsConstructor
 @Data
 public class ItemMenu {
 
@@ -16,10 +19,6 @@ public class ItemMenu {
     private Integer quantityAvailable;
     private BigDecimal price;
     private Integer takenOrders;
-
-    public ItemMenu() {
-        this.createdTime = LocalDateTime.now();
-    }
 
     public Integer getAvailable() {
         return (this.getQuantityAvailable() - this.getTakenOrders());

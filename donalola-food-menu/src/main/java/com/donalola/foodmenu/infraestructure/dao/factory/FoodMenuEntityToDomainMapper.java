@@ -2,13 +2,10 @@ package com.donalola.foodmenu.infraestructure.dao.factory;
 
 import com.donalola.foodmenu.FoodMenu;
 import com.donalola.foodmenu.infraestructure.dao.entity.FoodMenuDynamoEntity;
-import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface FoodMenuEntityToDomainMapper {
 
     FoodMenuEntityToDomainMapper MAPPER = Mappers.getMapper(FoodMenuEntityToDomainMapper.class);

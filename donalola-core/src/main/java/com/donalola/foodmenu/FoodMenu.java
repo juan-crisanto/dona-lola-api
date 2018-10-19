@@ -76,7 +76,6 @@ public class FoodMenu implements Serializable {
     private List<ItemMenu> items;
 
     public FoodMenu() {
-        this.createdDatetime = LocalDateTime.now();
         this.status = Status.OPEN;
     }
 

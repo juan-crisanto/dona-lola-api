@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Slf4j
@@ -29,7 +28,6 @@ public class ItemMenuDynamoRepository implements ItemMenuRepository {
             throw new IllegalArgumentException("Para agregar un ítem es necesario especificar un menú");
         }
         ItemMenuDynamoEntity entity = this.itemMenuFactory.create(itemMenu);
-        entity.setCreatedTime(LocalDateTime.now());
         ItemMenuDynamoEntity savedEntity = this.itemMenuDynamoCrudRepository.save(entity);
         return this.itemMenuFactory.create(savedEntity);
     }
