@@ -2,10 +2,12 @@ package com.donalola.foodplaces.dao.entity;
 
 import com.donalola.core.dao.entity.BaseEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
+@EqualsAndHashCode(callSuper = false)
 @Data
 @Entity
 @Table(name = "FOOD_PLACE")

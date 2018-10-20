@@ -17,12 +17,10 @@ public class JwtTokenHelperImpl implements JwtTokenHelper {
 
     private JwtConsumer jwtConsumer;
 
-    private final JwtConfig jwtConfig;
     private final String jwksEndpoint;
     private final String tokenIssuer;
 
     public JwtTokenHelperImpl(JwtConfig jwtConfig) {
-        this.jwtConfig = jwtConfig;
         this.jwksEndpoint = String.format("https://cognito-idp.%s.amazonaws.com/%s/.well-known/jwks.json", jwtConfig.getAwsRegion(), jwtConfig.getCognitoUserPoolId());
         this.tokenIssuer = jwtConfig.getTokenIssuer();
     }
