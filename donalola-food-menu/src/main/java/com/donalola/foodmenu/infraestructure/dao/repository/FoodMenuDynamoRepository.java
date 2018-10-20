@@ -1,15 +1,13 @@
 package com.donalola.foodmenu.infraestructure.dao.repository;
 
-import com.donalola.foodmenu.FoodMenu;
-import com.donalola.foodmenu.FoodMenus;
-import com.donalola.foodmenu.ItemMenu;
-import com.donalola.foodmenu.JustToIterateFoodMenus;
+import com.donalola.foodmenu.*;
 import com.donalola.foodmenu.domain.dao.repository.FoodMenuRepository;
 import com.donalola.foodmenu.domain.dao.repository.ItemMenuRepository;
 import com.donalola.foodmenu.domain.factory.FoodMenuFactory;
 import com.donalola.foodmenu.infraestructure.dao.entity.FoodMenuDynamoEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.IterableUtils;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -18,6 +16,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -26,11 +25,13 @@ public class FoodMenuDynamoRepository implements FoodMenuRepository, FoodMenus {
     private final FoodMenuDynamoCrudRepository foodMenuDynamoCrudRepository;
     private final FoodMenuFactory<FoodMenuDynamoEntity> foodMenuFactory;
     private final ItemMenuRepository itemMenuRepository;
+    private final ItemsMenu itemMenus;
 
-    public FoodMenuDynamoRepository(FoodMenuDynamoCrudRepository foodMenuDynamoCrudRepository, FoodMenuFactory<FoodMenuDynamoEntity> foodMenuFactory, ItemMenuRepository itemMenuRepository) {
+    public FoodMenuDynamoRepository(FoodMenuDynamoCrudRepository foodMenuDynamoCrudRepository, FoodMenuFactory<FoodMenuDynamoEntity> foodMenuFactory, ItemMenuRepository itemMenuRepository, ItemsMenu itemMenus) {
         this.foodMenuDynamoCrudRepository = foodMenuDynamoCrudRepository;
         this.foodMenuFactory = foodMenuFactory;
         this.itemMenuRepository = itemMenuRepository;
+        this.itemMenus = itemMenus;
     }
 
     @Override
@@ -78,8 +79,18 @@ public class FoodMenuDynamoRepository implements FoodMenuRepository, FoodMenus {
         }
         List<FoodMenuDynamoEntity> entityList = this.foodMenuDynamoCrudRepository.findAllByFoodPlaceIdAndAndCreatedDatetimeIsAfter(foodPlaceId, todayInitTime);
         List<FoodMenu> foodMenuList = new ArrayList<>(CollectionUtils.size(entityList));
-        entityList.stream().forEach(foodMenuDynamoEntity -> foodMenuList.add(this.foodMenuFactory.create(foodMenuDynamoEntity)));
+        for (final FoodMenuDynamoEntity entity : entityList) {
+            FoodMenu foodMenu = this.foodMenuFactory.create(entity);
+            if (Optional.ofNullable(foodMenu).isPresent()) {
+                retrieveItems(foodMenu);
+                foodMenuList.add(foodMenu);
+            }
+        }
         return new JustToIterateFoodMenus(foodMenuList.iterator());
+    }
+
+    private void retrieveItems(FoodMenu foodMenu) {
+        foodMenu.setItems(IterableUtils.toList(this.itemMenus.getByMenu(foodMenu.getId())));
     }
 
     @Override
