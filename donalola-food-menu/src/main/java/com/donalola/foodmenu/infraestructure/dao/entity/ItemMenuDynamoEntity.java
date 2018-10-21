@@ -23,7 +23,7 @@ public class ItemMenuDynamoEntity {
     private String menuId;
 
     @DynamoDBTypeConverted(converter = DynamoDBConverter.LocalDateTimeConverter.class)
-    @DynamoDBAttribute(attributeName = "createdDateTime")
+    @DynamoDBAttribute(attributeName = "createdDatetime")
     private LocalDateTime createdTime;
 
     @DynamoDBAttribute(attributeName = "name")
