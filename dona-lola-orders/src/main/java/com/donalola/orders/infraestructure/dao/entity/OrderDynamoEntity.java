@@ -50,9 +50,11 @@ public class OrderDynamoEntity implements Serializable {
     @DynamoDBAttribute(attributeName = "items")
     private List<ItemEntity> items;
 
+
     @NoArgsConstructor
     @AllArgsConstructor
     @Data
+    @DynamoDBDocument
     public static class ItemEntity implements Serializable {
 
         @DynamoDBAttribute(attributeName = "name")
