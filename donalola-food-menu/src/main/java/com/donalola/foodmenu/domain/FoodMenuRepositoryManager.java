@@ -27,6 +27,11 @@ public class FoodMenuRepositoryManager implements FoodMenuManager {
     }
 
     @Override
+    public FoodMenu get(String menuId) {
+        return this.foodMenuRepository.get(menuId);
+    }
+
+    @Override
     public FoodMenus getByFoodPlace(String foodPlaceId) {
         return this.foodMenus.listByFoodPlace(foodPlaceId);
     }

@@ -1,8 +1,9 @@
 package com.donalola.orders;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.donalola.*;
+import lombok.*;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -16,9 +17,7 @@ public class Order implements Serializable {
     private static final long serialVersionUID = -2667895201434490624L;
 
     public enum Status {
-
         OPEN, REJECTED, CANCELED, DELIVERED
-
     }
 
     public enum PaymentMethod {
@@ -26,20 +25,23 @@ public class Order implements Serializable {
     }
 
     private String id;
-    private LocalDateTime createdDateTime;
-    private String customerId;
-    private String customerName;
-    private String foodPlaceId;
+    private LocalDateTime createdDatetime;
+    private LocalDateTime modifiedDatetime;
+    private FoodPlaceID foodPlaceID;
+    private CustomerID customerID;
+    private CustomerDetails customerDetails;
     private Status status;
     private PaymentMethod paymentMethod;
-    private List<OrderItem> items;
+    private List<Item> items;
+    @Setter(AccessLevel.PRIVATE)
     private BigDecimal totalPrice;
+    private String comment;
 
     public Order() {
         this.status = Status.OPEN;
     }
 
-    public void setItems(List<OrderItem> items) {
+    public void setItems(List<Item> items) {
         this.items = items;
         this.totalPrice = this.calculateTotalPrice();
     }
@@ -50,13 +52,30 @@ public class Order implements Serializable {
         }
         BigDecimal total = this.items
                 .parallelStream()
-                .map(OrderItem::getTotalPrice)
+                .map(Item::getTotalPrice)
                 .reduce(BigDecimal::add)
                 .get();
         if (total.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalStateException("La orden no posee precios definidos");
         }
         return total;
+    }
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Data
+    public static class Item implements Serializable {
+
+        private static final long serialVersionUID = -3778631594325389133L;
+
+        private FoodMenuID foodMenuID;
+        private ItemMenuID itemMenuID;
+        private ItemMenuDetails itemMenuDetails;
+        private Integer quantity;
+
+        public BigDecimal getTotalPrice() {
+            return this.getItemMenuDetails().getPrice().multiply(NumberUtils.createBigDecimal(this.getQuantity().toString()));
+        }
     }
 
 }
