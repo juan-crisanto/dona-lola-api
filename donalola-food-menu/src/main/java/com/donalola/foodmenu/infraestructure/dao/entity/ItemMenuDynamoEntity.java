@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@DynamoDBTable(tableName = "FOOD_MENU_ITEMS")
+@DynamoDBTable(tableName = "MENU_ITEMS")
 public class ItemMenuDynamoEntity {
 
     @DynamoDBHashKey

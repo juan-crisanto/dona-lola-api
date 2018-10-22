@@ -6,4 +6,6 @@ public interface FoodMenuRepository {
 
     FoodMenu add(FoodMenu foodMenu);
 
+    FoodMenu get(String menuId);
+
 }

@@ -43,6 +43,17 @@ public class FoodMenuDynamoRepository implements FoodMenuRepository, FoodMenus {
     }
 
     @Override
+    public FoodMenu get(String menuId) {
+        Optional<FoodMenuDynamoEntity> entity = this.foodMenuDynamoCrudRepository.findById(menuId);
+        if (!entity.isPresent()) {
+            throw new IllegalArgumentException("Menu id no válido : " + menuId);
+        }
+        FoodMenu foodMenu = this.foodMenuFactory.create(entity.get());
+        retrieveItems(foodMenu);
+        return foodMenu;
+    }
+
+    @Override
     public FoodMenu add(FoodMenu foodMenu) {
         if (!foodMenu.hasAnyItem()) {
             throw new IllegalArgumentException("Es necesario especificar los Items del menú");
