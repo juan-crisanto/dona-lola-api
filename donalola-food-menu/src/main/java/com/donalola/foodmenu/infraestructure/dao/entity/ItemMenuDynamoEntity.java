@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@DynamoDBTable(tableName = "FOOD_MENU_ITEMS")
+@DynamoDBTable(tableName = "MENU_ITEMS")
 public class ItemMenuDynamoEntity {
 
     @DynamoDBHashKey
@@ -23,7 +23,7 @@ public class ItemMenuDynamoEntity {
     private String menuId;
 
     @DynamoDBTypeConverted(converter = DynamoDBConverter.LocalDateTimeConverter.class)
-    @DynamoDBAttribute(attributeName = "createdDatetime")
+    @DynamoDBAttribute(attributeName = "createdDateTime")
     private LocalDateTime createdTime;
 
     @DynamoDBAttribute(attributeName = "name")

@@ -7,6 +7,8 @@ public interface FoodMenuManager {
 
     FoodMenu add(FoodMenu foodMenu);
 
+    FoodMenu get(String menuId);
+
     FoodMenus getByFoodPlace(String foodPlaceId);
 
     FoodMenus listTodayFoodPlaceMenus(String foodPlaceId);

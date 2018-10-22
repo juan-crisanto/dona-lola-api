@@ -1,4 +1,4 @@
-package com.donalola.app.config;
+package com.donalola.application.config;
 
 
 import org.springframework.context.annotation.Bean;

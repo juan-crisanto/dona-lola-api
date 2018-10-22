@@ -1,4 +1,4 @@
-package com.donalola.app.config.dao;
+package com.donalola.application.config.dao;
 
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCredentials;
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableDynamoDBRepositories(
         basePackages = {
-                "com.donalola.app.config.dao",
+                "com.donalola.application.config.dao",
                 "com.donalola.foodmenu.infraestructure.dao",
                 "com.donalola.orders.infraestructure.dao"
         })

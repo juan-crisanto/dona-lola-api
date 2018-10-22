@@ -1,4 +1,4 @@
-package com.donalola.app.config.dao;
+package com.donalola.application.config.dao;
 
 import com.donalola.core.dao.BaseDaoConfig;
 import com.donalola.core.dao.ConfigDaoProperties;
@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = {"com.donalola.app.config.dao", "com.donalola.foodplaces.dao"},
+        basePackages = {"com.donalola.application.config.dao", "com.donalola.foodplaces.dao"},
         entityManagerFactoryRef = "mariaDbEntityManager", transactionManagerRef = "mariaDbTransactionManager")
 public class MariaDBDaoConfig extends BaseDaoConfig {
 

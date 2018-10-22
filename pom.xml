@@ -64,6 +64,18 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjrt -->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>1.9.1</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjtools -->
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjtools</artifactId>
+                <version>1.9.1</version>
+            </dependency>
             <!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct-jdk8 -->
             <dependency>
                 <groupId>org.mapstruct</groupId>

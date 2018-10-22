@@ -1,4 +1,4 @@
-package com.donalola.app.config.dao;
+package com.donalola.application.config.dao;
 
 import com.donalola.core.dao.ConfigDaoProperties;
 import org.springframework.beans.factory.annotation.Value;

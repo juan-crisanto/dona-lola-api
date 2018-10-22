@@ -1,5 +1,6 @@
 package com.donalola.orders.application;
 
+import com.donalola.CustomerID;
 import com.donalola.FoodMenuID;
 import com.donalola.FoodPlaceID;
 import com.donalola.ItemMenuID;
@@ -20,6 +21,7 @@ public interface OrderJsonToDomainMapper {
 
     @Mappings({
             @Mapping(source = "foodPlaceId", target = "foodPlaceID", qualifiedByName = "createFoodPlaceID"),
+            @Mapping(source = "customerId", target = "customerID", qualifiedByName = "createCustomerID"),
             @Mapping(source = "items", target = "items", qualifiedByName = "itemJsonListToItemList")
     })
     Order toDomain(OrderJson json);
@@ -29,6 +31,10 @@ public interface OrderJsonToDomainMapper {
             @Mapping(source = "items", target = "items", qualifiedByName = "itemListToItemJsonList")
     })
     OrderJson toJson(Order order);
+
+    default CustomerID createCustomerID(String customerId) {
+        return new CustomerID(customerId);
+    }
 
     @Named("createFoodPlaceID")
     default FoodPlaceID createFoodPlaceID(String foodPlaceId) {

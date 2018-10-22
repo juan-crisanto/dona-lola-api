@@ -1,18 +1,16 @@
-package com.donalola.app.config;
+package com.donalola.application.config;
 
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.annotation.PropertySources;
+import org.springframework.context.annotation.*;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
 //@SpringBootApplication
+
 //@EnableGlobalMethodSecurity(jsr250Enabled = true, securedEnabled = true)
 //@EnableWebMvc
-@EnableWebSecurity
 @Configuration
+@EnableWebSecurity
 @Order(Ordered.HIGHEST_PRECEDENCE + 1)
 @ComponentScan(basePackages = "com.donalola")
 @PropertySources({
@@ -21,6 +19,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
         @PropertySource("classpath:dao.properties"),
         @PropertySource("classpath:dynamodb.properties")
 })
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 public class ApplicationConfig {
 
 }

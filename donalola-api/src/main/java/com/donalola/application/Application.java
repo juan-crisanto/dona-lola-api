@@ -1,8 +1,8 @@
-package com.donalola.app;
+package com.donalola.application;
 
 
-import com.donalola.app.config.ApplicationConfig;
-import com.donalola.app.config.SwaggerConfig;
+import com.donalola.application.config.ApplicationConfig;
+import com.donalola.application.config.SwaggerConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;

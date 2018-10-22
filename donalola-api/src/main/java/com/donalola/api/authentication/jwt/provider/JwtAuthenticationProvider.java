@@ -36,7 +36,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             AppUser appUser = new AppUser();
             appUser.setUsername(jwtClaims.getSubject());
             appUser.setEmail((String) jwtClaims.getClaimsMap().get(JwtClaimNames.EMAIL));
-
+            appUser.setName(getName(jwtClaims));
             List<GrantedAuthority> authorityList = new ArrayList<>();
             authorityList.add(new SimpleGrantedAuthority("ROLE_SELLER"));
 
@@ -49,6 +49,10 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         } catch (MalformedClaimException e) {
             throw new BadCredentialsException("BadCredentials - cause: " + e.getMessage(), e);
         }
+    }
+
+    private String getName(JwtClaims jwtClaims) {
+        return (String) jwtClaims.getClaimsMap().get(JwtClaimNames.GIVEN_NAME) + (String) jwtClaims.getClaimsMap().get(JwtClaimNames.FAMILY_NAME);
     }
 
     public boolean supports(Class<?> aClass) {

@@ -2,6 +2,7 @@ package com.donalola.orders.application;
 
 import com.donalola.CustomerDetails;
 import com.donalola.ItemMenuDetails;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -31,6 +32,9 @@ public class OrderJson implements Serializable {
 
     @ApiModelProperty(value = "Fecha de actualización", readOnly = true)
     private LocalDateTime modifiedDatetime;
+
+    @JsonIgnore
+    private String customerId;
 
     @ApiModelProperty(value = "Información de cliente", readOnly = true)
     private CustomerDetails customerDetails;

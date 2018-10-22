@@ -15,6 +15,9 @@ public class AppUser implements UserDetails {
     private String username;
     @Getter
     @Setter
+    private String name;
+    @Getter
+    @Setter
     private String email;
     @Setter
     private String password;

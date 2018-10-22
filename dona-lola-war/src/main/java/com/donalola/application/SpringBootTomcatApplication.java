@@ -1,4 +1,4 @@
-package com.donalola.app;
+package com.donalola.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
