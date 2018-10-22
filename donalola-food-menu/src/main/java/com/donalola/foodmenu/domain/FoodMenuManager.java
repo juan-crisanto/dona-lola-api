@@ -5,7 +5,9 @@ import com.donalola.foodmenu.FoodMenus;
 
 public interface FoodMenuManager {
 
-    FoodMenu add(FoodMenu foodMenu);
+    FoodMenu addMenuWithItems(FoodMenu foodMenu);
+
+    FoodMenu addItemsToMenu(FoodMenu foodMenu);
 
     FoodMenus getByFoodPlace(String foodPlaceId);
 

@@ -43,7 +43,7 @@ public class FoodMenuDynamoRepository implements FoodMenuRepository, FoodMenus {
     }
 
     @Override
-    public FoodMenu add(FoodMenu foodMenu) {
+    public FoodMenu addMenuWithItems(FoodMenu foodMenu) {
         if (!foodMenu.hasAnyItem()) {
             throw new IllegalArgumentException("Es necesario especificar los Items del menú");
         }
@@ -52,6 +52,12 @@ public class FoodMenuDynamoRepository implements FoodMenuRepository, FoodMenus {
         FoodMenu savedFoodMenu = this.foodMenuFactory.create(savedEntity);
         saveItemsAndComplete(savedFoodMenu, foodMenu.getItems());
         return savedFoodMenu;
+    }
+
+    @Override
+    public FoodMenu addItemsToMenu(FoodMenu foodMenu){
+        saveItemsAndComplete(foodMenu, foodMenu.getItems());
+        return foodMenu;
     }
 
     private void saveItemsAndComplete(FoodMenu savedFoodMenu, final List<ItemMenu> itemMenuList) {
