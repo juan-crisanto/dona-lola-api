@@ -47,6 +47,9 @@ public class OrderDynamoEntity implements Serializable {
     @DynamoDBAttribute(attributeName = "comment")
     private String comment;
 
+    @DynamoDBAttribute(attributeName = "paymentMethod")
+    private String paymentMethod;
+
     @DynamoDBAttribute(attributeName = "items")
     private List<ItemEntity> items;
 
