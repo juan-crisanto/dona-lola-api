@@ -30,4 +30,6 @@ public class ItemMenuJson {
     private Integer quantityAvailable;
     @ApiModelProperty(value = "Número de pedidos sobre este plato", readOnly = true)
     private Integer takenOrders;
+    @ApiModelProperty(value = "Imagen base64 para este plato", required = true)
+    private String image;
 }

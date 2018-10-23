@@ -21,6 +21,7 @@ public class ItemMenu {
     private Integer quantityAvailable;
     private BigDecimal price;
     private Integer takenOrders;
+    private String image;
 
     public Integer getQuantityAvailable() {
         if (!Optional.ofNullable(this.quantityAvailable).isPresent()) {
