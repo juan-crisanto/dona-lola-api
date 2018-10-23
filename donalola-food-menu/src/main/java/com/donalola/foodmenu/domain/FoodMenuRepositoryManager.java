@@ -17,8 +17,13 @@ public class FoodMenuRepositoryManager implements FoodMenuManager {
     }
 
     @Override
-    public FoodMenu add(FoodMenu foodMenu) {
-        return this.foodMenuRepository.add(foodMenu);
+    public FoodMenu addMenuWithItems(FoodMenu foodMenu) {
+        return this.foodMenuRepository.addMenuWithItems(foodMenu);
+    }
+
+    @Override
+    public FoodMenu addItemsToMenu(FoodMenu foodMenu) {
+        return this.foodMenuRepository.addItemsToMenu(foodMenu);
     }
 
     @Override

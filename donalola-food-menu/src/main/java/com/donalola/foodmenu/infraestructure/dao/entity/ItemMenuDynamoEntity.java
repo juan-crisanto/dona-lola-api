@@ -42,4 +42,6 @@ public class ItemMenuDynamoEntity {
     @DynamoDBAttribute(attributeName = "takenOrders")
     private Integer takenOrders;
 
+    @DynamoDBAttribute(attributeName = "image")
+    private String image;
 }

@@ -1,6 +1,7 @@
 package com.donalola.foodmenu.application;
 
 import com.donalola.core.rest.service.BaseController;
+import com.donalola.foodmenu.FoodMenu;
 import com.donalola.foodmenu.domain.FoodMenuManager;
 import com.donalola.foodmenu.domain.factory.FoodMenuFactory;
 import io.swagger.annotations.Api;
@@ -42,7 +43,18 @@ public class FoodMenuRestService extends BaseController {
         if (log.isDebugEnabled()) {
             log.debug("Add for principal: " + principal);
         }
-        return this.foodMenuFactory.create(this.foodMenuManager.add(this.foodMenuFactory.create(foodMenu)));
+        return this.foodMenuFactory.create(this.foodMenuManager.addMenuWithItems(this.foodMenuFactory.create(foodMenu)));
+    }
+
+    @PutMapping
+    @ApiOperation(value = "Agrega un nuevo item al menú de un Local.")
+    @RequestMapping(value = "/menu/item", method = RequestMethod.PUT)
+    public FoodMenuJson addItemsToMenu(@RequestBody FoodMenuJson foodMenuJson, BindingResult bindingResult, Principal principal) {
+        if (log.isDebugEnabled()) {
+            log.debug("Add for principal: " + principal);
+        }
+        FoodMenu foodMenu = this.foodMenuFactory.create(foodMenuJson);
+        return this.foodMenuFactory.create(this.foodMenuManager.addItemsToMenu(foodMenu));
     }
 
     @GetMapping(value = "/local/{idLocal}")
