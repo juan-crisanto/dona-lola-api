@@ -4,12 +4,12 @@ import com.auth0.jwt.JWT;
 
 import java.util.Optional;
 
-public class AWSCognitoToken extends AbstractToken {
+public class FirebaseToken extends AbstractToken {
 
     private final String token;
     private final String keyId;
 
-    public AWSCognitoToken(String token) {
+    public FirebaseToken(String token) {
         this.token = token;
         this.keyId = JWT.decode(this.token).getKeyId();
     }
@@ -26,4 +26,5 @@ public class AWSCognitoToken extends AbstractToken {
         }
         return this.keyId;
     }
+
 }
