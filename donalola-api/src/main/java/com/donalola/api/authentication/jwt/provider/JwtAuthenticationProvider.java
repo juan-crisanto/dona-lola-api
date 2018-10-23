@@ -31,7 +31,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         JwtToken rawAccessToken = (JwtToken) authentication.getCredentials();
-        JwtClaims jwtClaims = rawAccessToken.parseClaims(this.jwtTokenHelper.getJwtConsumer());
+        JwtClaims jwtClaims = rawAccessToken.parseClaims(this.jwtTokenHelper.getJwtConsumer(rawAccessToken));
         try {
             AppUser appUser = new AppUser();
             appUser.setUsername(jwtClaims.getSubject());
@@ -52,7 +52,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     }
 
     private String getName(JwtClaims jwtClaims) {
-        return (String) jwtClaims.getClaimsMap().get(JwtClaimNames.GIVEN_NAME) + (String) jwtClaims.getClaimsMap().get(JwtClaimNames.FAMILY_NAME);
+        //return (String) jwtClaims.getClaimsMap().get(JwtClaimNames.GIVEN_NAME) +
+        return (String) jwtClaims.getClaimsMap().get(JwtClaimNames.EMAIL);
     }
 
     public boolean supports(Class<?> aClass) {

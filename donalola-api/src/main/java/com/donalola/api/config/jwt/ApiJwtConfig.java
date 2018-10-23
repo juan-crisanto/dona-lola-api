@@ -1,12 +1,14 @@
 package com.donalola.api.config.jwt;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Data
+@Setter
+@Getter
 @Component
 public class ApiJwtConfig implements JwtConfig {
 
@@ -28,6 +30,9 @@ public class ApiJwtConfig implements JwtConfig {
     @Value("${jwt.aws.region}")
     private String awsRegion;
 
-    @Value(("${jwt.aws.poolId}"))
+    @Value("${jwt.aws.poolId}")
     private String cognitoUserPoolId;
+
+    @Value("${jwt.firebase.keysEndpoint}")
+    private String firebaseKeysEndPoint;
 }

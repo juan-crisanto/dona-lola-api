@@ -17,4 +17,6 @@ public interface JwtConfig {
     String getCognitoUserPoolId();
 
     List<String> getMustBePresentIn();
+
+    String getFirebaseKeysEndPoint();
 }

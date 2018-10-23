@@ -35,7 +35,7 @@ public class JwtAuthenticationProviderTest {
 
     @Before
     public void setUp() throws Exception {
-        Mockito.when(jwtTokenHelper.getJwtConsumer()).thenReturn(Mockito.any());
+        Mockito.when(jwtTokenHelper.getJwtConsumer(Mockito.any())).thenReturn(Mockito.any());
         Mockito.when(claimsObject.get(JwtClaimNames.EMAIL)).thenReturn("diegocrisanto06@gmail.com");
         Mockito.when(validJwtClaims.getSubject()).thenReturn("e62aea8b-37ca-474b-9ed7-853f3b05ecae");
         Mockito.when(validJwtClaims.getClaimsMap()).thenReturn(claimsObject);
