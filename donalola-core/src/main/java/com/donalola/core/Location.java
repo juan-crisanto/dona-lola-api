@@ -9,7 +9,7 @@ public class Location {
 
     private String district;
     private String address;
-    private BigDecimal latitude;
-    private BigDecimal longitude;
+    private double latitude;
+    private double longitude;
 
 }

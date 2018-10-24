@@ -27,8 +27,8 @@ public class FoodPlaceFactoryImpl implements FoodPlaceFactory {
         Location location = new Location();
         location.setAddress(foodPlaceEntity.getAddress());
         location.setDistrict(foodPlaceEntity.getDistrict());
-        location.setLatitude(NumberUtils.createBigDecimal(foodPlaceEntity.getLatitude()));
-        location.setLongitude(NumberUtils.createBigDecimal(foodPlaceEntity.getLongitude()));
+        location.setLatitude(Long.parseLong(foodPlaceEntity.getLatitude()));
+        location.setLongitude(Long.parseLong(foodPlaceEntity.getLongitude()));
         foodPlace.setLocation(location);
     }
 }
