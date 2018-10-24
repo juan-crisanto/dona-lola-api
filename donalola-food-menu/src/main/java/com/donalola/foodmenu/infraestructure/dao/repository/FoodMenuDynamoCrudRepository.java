@@ -19,4 +19,5 @@ public interface FoodMenuDynamoCrudRepository extends CrudRepository<FoodMenuDyn
 
     List<FoodMenuDynamoEntity> findAllByFoodPlaceIdAndAndCreatedDatetimeIsAfter(String foodPlaceId, LocalDateTime localDateTime);
 
+
 }

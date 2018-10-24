@@ -2,7 +2,6 @@ package com.donalola.foodmenu.application;
 
 import com.donalola.foodmenu.FoodMenu;
 import com.donalola.foodmenu.FoodMenuTestUtil;
-import com.donalola.foodmenu.ItemMenu;
 import com.donalola.foodmenu.domain.factory.FoodMenuFactory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -42,7 +41,7 @@ public class FromJsonFoodMenuFactoryTest {
         json.setName("Regular");
         json.setFoodPlaceId("1");
 
-        ItemMenuJson itemMenuJson = new ItemMenuJson();
+        FoodMenuJson.ItemJson itemMenuJson = new FoodMenuJson.ItemJson();
         itemMenuJson.setDescription("Lomo fino saltado con papas fritas y arroz blanco");
         itemMenuJson.setName("Lomo Saltado");
         itemMenuJson.setPrice(new BigDecimal("11.50"));
@@ -81,7 +80,7 @@ public class FromJsonFoodMenuFactoryTest {
     @Test
     public void createJsonWithItems() {
         FoodMenu foodMenu = createFoodMenu();
-        List<ItemMenu> itemMenuList = Arrays.asList(FoodMenuTestUtil.createItem());
+        List<FoodMenu.Item> itemMenuList = Arrays.asList(FoodMenuTestUtil.createItem());
         foodMenu.setItems(itemMenuList);
         FoodMenuJson json = this.factory.create(foodMenu);
         Assert.assertNotNull(json);

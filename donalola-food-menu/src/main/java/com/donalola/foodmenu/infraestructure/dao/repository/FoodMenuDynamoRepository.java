@@ -1,22 +1,19 @@
 package com.donalola.foodmenu.infraestructure.dao.repository;
 
-import com.donalola.foodmenu.*;
+import com.donalola.foodmenu.FoodMenu;
+import com.donalola.foodmenu.FoodMenus;
+import com.donalola.foodmenu.JustToIterateFoodMenus;
 import com.donalola.foodmenu.domain.dao.repository.FoodMenuRepository;
-import com.donalola.foodmenu.domain.dao.repository.ItemMenuRepository;
 import com.donalola.foodmenu.domain.factory.FoodMenuFactory;
 import com.donalola.foodmenu.infraestructure.dao.entity.FoodMenuDynamoEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.IterableUtils;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -24,14 +21,10 @@ public class FoodMenuDynamoRepository implements FoodMenuRepository, FoodMenus {
 
     private final FoodMenuDynamoCrudRepository foodMenuDynamoCrudRepository;
     private final FoodMenuFactory<FoodMenuDynamoEntity> foodMenuFactory;
-    private final ItemMenuRepository itemMenuRepository;
-    private final ItemsMenu itemMenus;
 
-    public FoodMenuDynamoRepository(FoodMenuDynamoCrudRepository foodMenuDynamoCrudRepository, FoodMenuFactory<FoodMenuDynamoEntity> foodMenuFactory, ItemMenuRepository itemMenuRepository, ItemsMenu itemMenus) {
+    public FoodMenuDynamoRepository(FoodMenuDynamoCrudRepository foodMenuDynamoCrudRepository, FoodMenuFactory<FoodMenuDynamoEntity> foodMenuFactory) {
         this.foodMenuDynamoCrudRepository = foodMenuDynamoCrudRepository;
         this.foodMenuFactory = foodMenuFactory;
-        this.itemMenuRepository = itemMenuRepository;
-        this.itemMenus = itemMenus;
     }
 
     @Override
@@ -48,9 +41,7 @@ public class FoodMenuDynamoRepository implements FoodMenuRepository, FoodMenus {
         if (!entity.isPresent()) {
             throw new IllegalArgumentException("Menu id no válido : " + menuId);
         }
-        FoodMenu foodMenu = this.foodMenuFactory.create(entity.get());
-        retrieveItems(foodMenu);
-        return foodMenu;
+        return this.foodMenuFactory.create(entity.get());
     }
 
     @Override
@@ -58,26 +49,26 @@ public class FoodMenuDynamoRepository implements FoodMenuRepository, FoodMenus {
         if (!foodMenu.hasAnyItem()) {
             throw new IllegalArgumentException("Es necesario especificar los Items del menú");
         }
+        setItemIds(foodMenu);
         FoodMenuDynamoEntity foodMenuDynamoEntity = this.foodMenuFactory.create(foodMenu);
         FoodMenuDynamoEntity savedEntity = this.foodMenuDynamoCrudRepository.save(foodMenuDynamoEntity);
-        FoodMenu savedFoodMenu = this.foodMenuFactory.create(savedEntity);
-        saveItemsAndComplete(savedFoodMenu, foodMenu.getItems());
-        return savedFoodMenu;
+        return this.foodMenuFactory.create(savedEntity);
     }
 
     @Override
-    public FoodMenu addItemsToMenu(FoodMenu foodMenu){
-        saveItemsAndComplete(foodMenu, foodMenu.getItems());
-        return foodMenu;
+    public FoodMenu addItemsToMenu(FoodMenu foodMenu) {
+        setItemIds(foodMenu);
+        FoodMenuDynamoEntity savedEntity = this.foodMenuDynamoCrudRepository.save(this.foodMenuFactory.create(foodMenu));
+        return this.foodMenuFactory.create(savedEntity);
     }
 
-    private void saveItemsAndComplete(FoodMenu savedFoodMenu, final List<ItemMenu> itemMenuList) {
-        List<ItemMenu> addedItemMenuList = new ArrayList<>(CollectionUtils.size(itemMenuList));
-        for (ItemMenu itemMenu : itemMenuList) {
-            itemMenu.setMenuId(savedFoodMenu.getId());
-            addedItemMenuList.add(this.itemMenuRepository.add(itemMenu));
+    private void setItemIds(FoodMenu foodMenu) {
+        List<FoodMenu.Item> withIdItems = new ArrayList<>(CollectionUtils.size(foodMenu.getItems()));
+        for (FoodMenu.Item item : foodMenu.getItems()) {
+            item.setId(UUID.randomUUID().toString());
+            withIdItems.add(item);
         }
-        savedFoodMenu.setItems(addedItemMenuList);
+        foodMenu.setItems(withIdItems);
     }
 
     @Override
@@ -99,15 +90,10 @@ public class FoodMenuDynamoRepository implements FoodMenuRepository, FoodMenus {
         for (final FoodMenuDynamoEntity entity : entityList) {
             FoodMenu foodMenu = this.foodMenuFactory.create(entity);
             if (Optional.ofNullable(foodMenu).isPresent()) {
-                retrieveItems(foodMenu);
                 foodMenuList.add(foodMenu);
             }
         }
         return new JustToIterateFoodMenus(foodMenuList.iterator());
-    }
-
-    private void retrieveItems(FoodMenu foodMenu) {
-        foodMenu.setItems(IterableUtils.toList(this.itemMenus.getByMenu(foodMenu.getId())));
     }
 
     @Override
