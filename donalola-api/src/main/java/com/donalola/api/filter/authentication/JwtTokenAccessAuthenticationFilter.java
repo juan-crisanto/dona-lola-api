@@ -1,6 +1,6 @@
 package com.donalola.api.filter.authentication;
 
-import com.donalola.api.authentication.jwt.AWSCognitoToken;
+import com.donalola.api.authentication.jwt.FirebaseToken;
 import com.donalola.api.authentication.jwt.JwtToken;
 import com.donalola.api.authentication.jwt.token.JwtAuthenticationToken;
 import com.donalola.api.authentication.util.TokenExtractorUtil;
@@ -29,7 +29,7 @@ public class JwtTokenAccessAuthenticationFilter extends AbstractAuthenticationPr
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         String token = this.tokenExtractorUtil.extract(request);
-        JwtToken rawJwtToken = new AWSCognitoToken(token);
+        JwtToken rawJwtToken = new FirebaseToken(token);
         return this.getAuthenticationManager().authenticate(new JwtAuthenticationToken(rawJwtToken));
     }
 
