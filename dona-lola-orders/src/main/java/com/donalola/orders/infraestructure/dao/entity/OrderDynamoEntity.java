@@ -4,9 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.donalola.FoodMenuID;
 import com.donalola.ItemMenuID;
 import com.donalola.commons.dynamodb.util.DynamoDBConverter;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -56,7 +54,8 @@ public class OrderDynamoEntity implements Serializable {
 
     @NoArgsConstructor
     @AllArgsConstructor
-    @Data
+    @Getter
+    @Setter
     @DynamoDBDocument
     public static class ItemEntity implements Serializable {
 

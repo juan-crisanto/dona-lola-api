@@ -3,11 +3,13 @@ package com.donalola.foodmenu.domain;
 import com.donalola.foodmenu.FoodMenu;
 import com.donalola.foodmenu.FoodMenus;
 
+import java.util.List;
+
 public interface FoodMenuManager {
 
     FoodMenu addMenuWithItems(FoodMenu foodMenu);
 
-    FoodMenu addItemsToMenu(FoodMenu foodMenu);
+    FoodMenu addItemsToMenu(String foodMenuId, List<FoodMenu.Item> itemList);
 
     FoodMenu get(String menuId);
 

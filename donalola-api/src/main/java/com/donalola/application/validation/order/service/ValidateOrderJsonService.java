@@ -6,7 +6,6 @@ import com.donalola.application.util.SecurityApplicationUtil;
 import com.donalola.application.validation.service.ValidateService;
 import com.donalola.authentication.AppUser;
 import com.donalola.foodmenu.FoodMenu;
-import com.donalola.foodmenu.ItemMenu;
 import com.donalola.foodmenu.domain.FoodMenuManager;
 import com.donalola.orders.application.OrderJson;
 import lombok.extern.slf4j.Slf4j;
@@ -59,9 +58,8 @@ public class ValidateOrderJsonService implements ValidateService {
 
     private void completeItemsInfo(final FoodMenu foodMenu, OrderJson orderJson) {
         List<OrderJson.ItemJson> completeItemJsonList = new ArrayList<>(CollectionUtils.size(orderJson.getItems()));
-        final Map<String, ItemMenu> itemMenuMap = getItemsOnMap(foodMenu);
         for (OrderJson.ItemJson itemJson : orderJson.getItems()) {
-            ItemMenu itemMenu = itemMenuMap.get(itemJson.getItemMenuId());
+            FoodMenu.Item itemMenu = foodMenu.getItem(itemJson.getItemMenuId());
             itemJson.setItemMenuDetails(new ItemMenuDetails(itemMenu.getName(), itemMenu.getDescription(), itemMenu.getPrice()));
             completeItemJsonList.add(itemJson);
         }
@@ -76,22 +74,9 @@ public class ValidateOrderJsonService implements ValidateService {
     }
 
     private void hasEnougStock(final FoodMenu foodMenu, final Map<String, Integer> itemsAndQuantity) {
-        final Map<String, ItemMenu> itemMenuMap = getItemsOnMap(foodMenu);
-        itemsAndQuantity.forEach((s, requestedQuantity) -> {
-            ItemMenu itemMenu = itemMenuMap.get(s);
-            if (itemMenu == null) {
-                throw new IllegalArgumentException("Item del menú no es válido");
-            }
-            if (requestedQuantity > itemMenu.getQuantityAvailable()) {
-                throw new IllegalStateException("No hay suficientes items para " + itemMenu.getName());
-            }
+        itemsAndQuantity.forEach((s, integer) -> {
+            foodMenu.isItemAvailable(s, integer);
         });
-    }
-
-    private Map<String, ItemMenu> getItemsOnMap(final FoodMenu foodMenu) {
-        return foodMenu.getItems()
-                .parallelStream()
-                .collect(Collectors.toMap(ItemMenu::getId, itemMenu -> itemMenu));
     }
 
     private Map<String, Integer> getQuantityItems(final List<OrderJson.ItemJson> itemJsonList, final String menuId) {
