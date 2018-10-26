@@ -1,9 +1,12 @@
 package com.donalola.foodplaces.rest.service;
 
+
 import com.donalola.core.rest.service.BaseController;
+import com.donalola.foodplaces.FoodPlaceDto;
 import com.donalola.foodplaces.FoodPlaceManager;
 import com.donalola.foodplaces.dto.FindNearbyFoodPlacesRequestDto;
 import com.donalola.foodplaces.dto.FindNearbyFoodPlacesResponseDto;
+import com.donalola.foodplaces.dto.FoodPlaceRequestDto;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
@@ -20,14 +23,19 @@ public class FoodPlaceRestService extends BaseController {
 
     private final FoodPlaceManager foodPlaceManager;
 
-    public FoodPlaceRestService(FoodPlaceManager foodPlaceManager) {
+    public FoodPlaceRestService(FoodPlaceManager foodPlaceManager){
         this.foodPlaceManager = foodPlaceManager;
     }
 
-    @RequestMapping(value = "/listNearby", method = {RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/listNearby", method = { RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiOperation(value = "Devuelve una lista de locales en el radio especificado(mts)")
-    public FindNearbyFoodPlacesResponseDto findNearby(@Valid @RequestBody FindNearbyFoodPlacesRequestDto requestDto, BindingResult bindingResult) {
+    public FindNearbyFoodPlacesResponseDto findNearby(@Valid @RequestBody FindNearbyFoodPlacesRequestDto requestDto, BindingResult bindingResult){
         return (FindNearbyFoodPlacesResponseDto) this.foodPlaceManager.proceed(requestDto);
     }
 
+    @RequestMapping(value = "/", method = { RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @ApiOperation(value = "Registra nuevo local")
+    public FoodPlaceRequestDto findNearby(@Valid @RequestBody FoodPlaceDto requestDto, BindingResult bindingResult){
+        return (FoodPlaceRequestDto) this.foodPlaceManager.proceed(requestDto);
+    }
 }

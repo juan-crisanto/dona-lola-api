@@ -1,7 +1,7 @@
 package com.donalola.foodplaces.service;
 
 import com.donalola.commons.GeoLocation;
-import com.donalola.foodplaces.FoodPlace;
+import com.donalola.foodplaces.FoodPlaceDto;
 import com.donalola.foodplaces.dao.entity.FoodPlaceEntity;
 import com.donalola.foodplaces.dto.FindNearbyFoodPlacesRequestDto;
 import com.donalola.foodplaces.dto.FindNearbyFoodPlacesResponseDto;
@@ -30,13 +30,13 @@ public class FoodPlacesLocationServiceImpl implements FoodPlacesLocationService 
 
         List<GeoLocation> places = foodPlaceEntityList.stream().map(f -> new GeoLocation(Double.parseDouble(f.getLatitude()), Double.parseDouble(f.getLongitude()))).collect(Collectors.toList());
 
-        List<FoodPlace> result = new ArrayList<>(places.size());
+        List<FoodPlaceDto> result = new ArrayList<>(places.size());
 
         for (int i = 0; i < places.size(); i++) {
             double distance = geoLocationUtil.getDistanceBetween(origin, places.get(i));
 
             if (distance <= request.getRadius()) {
-                result.add(this.foodPlaceFactory.create(foodPlaceEntityList.get(i)));
+                result.add(this.foodPlaceFactory.fromEntityToDto(foodPlaceEntityList.get(i)));
             }
         }
 
