@@ -15,8 +15,8 @@ public class FoodPlaceEntity extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = -7656802625497475155L;
     @Id
-    @Column(name = "ID", updatable = false, insertable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "NAME", nullable = false)
     private String name;
