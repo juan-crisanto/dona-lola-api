@@ -5,6 +5,8 @@ import com.donalola.foodmenu.FoodMenus;
 import com.donalola.foodmenu.domain.dao.repository.FoodMenuRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class FoodMenuRepositoryManager implements FoodMenuManager {
 
@@ -22,8 +24,8 @@ public class FoodMenuRepositoryManager implements FoodMenuManager {
     }
 
     @Override
-    public FoodMenu addItemsToMenu(FoodMenu foodMenu) {
-        return this.foodMenuRepository.addItemsToMenu(foodMenu);
+    public FoodMenu addItemsToMenu(String foodMenuId, List<FoodMenu.Item> itemList) {
+        return this.foodMenuRepository.addItemsToMenu(foodMenuId, itemList);
     }
 
     @Override

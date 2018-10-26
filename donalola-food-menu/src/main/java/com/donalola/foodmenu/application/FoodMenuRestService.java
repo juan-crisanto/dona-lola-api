@@ -46,15 +46,14 @@ public class FoodMenuRestService extends BaseController {
         return this.foodMenuFactory.create(this.foodMenuManager.addMenuWithItems(this.foodMenuFactory.create(foodMenu)));
     }
 
-    @PutMapping
+    @PutMapping(value = "/{menuId}/item")
     @ApiOperation(value = "Agrega un nuevo item al menú de un Local.")
-    @RequestMapping(value = "/menu/item", method = RequestMethod.PUT)
-    public FoodMenuJson addItemsToMenu(@RequestBody FoodMenuJson foodMenuJson, BindingResult bindingResult, Principal principal) {
-        if (log.isDebugEnabled()) {
-            log.debug("Add for principal: " + principal);
-        }
-        FoodMenu foodMenu = this.foodMenuFactory.create(foodMenuJson);
-        return this.foodMenuFactory.create(this.foodMenuManager.addItemsToMenu(foodMenu));
+    public FoodMenuJson addItem(@PathVariable String menuId, @RequestBody List<FoodMenuJson.ItemJson> itemJsonList, BindingResult bindingResult) {
+        FoodMenuJson menuJson = new FoodMenuJson();
+        menuJson.setId(menuId);
+        menuJson.setItems(itemJsonList);
+        FoodMenu foodMenu = this.foodMenuFactory.create(menuJson);
+        return this.foodMenuFactory.create(this.foodMenuManager.addItemsToMenu(menuId, foodMenu.getItems()));
     }
 
     @GetMapping(value = "/local/{idLocal}")

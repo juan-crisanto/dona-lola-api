@@ -56,19 +56,24 @@ public class FoodMenuDynamoRepository implements FoodMenuRepository, FoodMenus {
     }
 
     @Override
-    public FoodMenu addItemsToMenu(FoodMenu foodMenu) {
-        setItemIds(foodMenu);
+    public FoodMenu addItemsToMenu(String menuId, List<FoodMenu.Item> itemList) {
+        FoodMenu foodMenu = this.get(menuId);
+        foodMenu.getItems().addAll(setItemIds(itemList));
         FoodMenuDynamoEntity savedEntity = this.foodMenuDynamoCrudRepository.save(this.foodMenuFactory.create(foodMenu));
         return this.foodMenuFactory.create(savedEntity);
     }
 
     private void setItemIds(FoodMenu foodMenu) {
-        List<FoodMenu.Item> withIdItems = new ArrayList<>(CollectionUtils.size(foodMenu.getItems()));
-        for (FoodMenu.Item item : foodMenu.getItems()) {
+        foodMenu.setItems(setItemIds(foodMenu.getItems()));
+    }
+
+    private List<FoodMenu.Item> setItemIds(List<FoodMenu.Item> itemList) {
+        List<FoodMenu.Item> withIdItems = new ArrayList<>(CollectionUtils.size(itemList));
+        for (FoodMenu.Item item : itemList) {
             item.setId(UUID.randomUUID().toString());
             withIdItems.add(item);
         }
-        foodMenu.setItems(withIdItems);
+        return withIdItems;
     }
 
     @Override
