@@ -66,8 +66,8 @@ public class FoodMenuDynamoEntity {
         @DynamoDBAttribute(attributeName = "description")
         private String description;
 
-        @DynamoDBAttribute(attributeName = "quantityAvailable")
-        private Integer quantityAvailable;
+        @DynamoDBAttribute(attributeName = "stock")
+        private Integer stock;
 
         @DynamoDBTypeConverted(converter = DynamoDBConverter.BigDecimalConverter.class)
         @DynamoDBAttribute(attributeName = "price")

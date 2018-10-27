@@ -19,10 +19,9 @@ public class FoodMenuTest {
     public void setUp() throws Exception {
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test
     public void createAllArguments() {
         FoodMenu foodMenu = new FoodMenu("foodMenuid123", "1", FoodMenu.Status.parse("CLOSED"), LocalDateTime.now(), null, "Menú Regular", null);
-        foodMenu.spent();
     }
 
     @Test

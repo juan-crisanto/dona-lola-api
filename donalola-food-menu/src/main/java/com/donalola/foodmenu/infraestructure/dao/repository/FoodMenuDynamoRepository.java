@@ -36,6 +36,12 @@ public class FoodMenuDynamoRepository implements FoodMenuRepository, FoodMenus {
     }
 
     @Override
+    public void update(FoodMenu foodMenu) {
+        FoodMenuDynamoEntity toUpdateEntity = this.foodMenuFactory.create(foodMenu);
+        this.foodMenuDynamoCrudRepository.save(toUpdateEntity);
+    }
+
+    @Override
     public FoodMenu get(String menuId) {
         Optional<FoodMenuDynamoEntity> entity = this.foodMenuDynamoCrudRepository.findById(menuId);
         if (!entity.isPresent()) {
@@ -59,6 +65,14 @@ public class FoodMenuDynamoRepository implements FoodMenuRepository, FoodMenus {
     public FoodMenu addItemsToMenu(String menuId, List<FoodMenu.Item> itemList) {
         FoodMenu foodMenu = this.get(menuId);
         foodMenu.getItems().addAll(setItemIds(itemList));
+        FoodMenuDynamoEntity savedEntity = this.foodMenuDynamoCrudRepository.save(this.foodMenuFactory.create(foodMenu));
+        return this.foodMenuFactory.create(savedEntity);
+    }
+
+    @Override
+    public FoodMenu updateItems(String menuId, List<FoodMenu.Item> itemList) {
+        FoodMenu foodMenu = this.get(menuId);
+        foodMenu.setItems(itemList);
         FoodMenuDynamoEntity savedEntity = this.foodMenuDynamoCrudRepository.save(this.foodMenuFactory.create(foodMenu));
         return this.foodMenuFactory.create(savedEntity);
     }

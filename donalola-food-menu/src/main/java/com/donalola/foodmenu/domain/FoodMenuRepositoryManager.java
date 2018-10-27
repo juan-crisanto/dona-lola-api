@@ -3,6 +3,7 @@ package com.donalola.foodmenu.domain;
 import com.donalola.foodmenu.FoodMenu;
 import com.donalola.foodmenu.FoodMenus;
 import com.donalola.foodmenu.domain.dao.repository.FoodMenuRepository;
+import com.donalola.foodmenu.domain.service.FoodMenuService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -12,15 +13,23 @@ public class FoodMenuRepositoryManager implements FoodMenuManager {
 
     private final FoodMenuRepository foodMenuRepository;
     private final FoodMenus foodMenus;
+    private final FoodMenuService foodMenuService;
 
-    public FoodMenuRepositoryManager(FoodMenuRepository foodMenuRepository, FoodMenus foodMenus) {
+    public FoodMenuRepositoryManager(FoodMenuRepository foodMenuRepository, FoodMenus foodMenus, FoodMenuService foodMenuService) {
         this.foodMenuRepository = foodMenuRepository;
         this.foodMenus = foodMenus;
+        this.foodMenuService = foodMenuService;
     }
+
 
     @Override
     public FoodMenu addMenuWithItems(FoodMenu foodMenu) {
         return this.foodMenuRepository.addMenuWithItems(foodMenu);
+    }
+
+    @Override
+    public FoodMenu sellItem(String foodMenuId, String itemId, Integer quantity) {
+        return this.foodMenuService.sellItem(foodMenuId, itemId, quantity);
     }
 
     @Override

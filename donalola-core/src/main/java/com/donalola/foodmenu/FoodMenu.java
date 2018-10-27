@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -11,11 +12,11 @@ import org.apache.commons.lang3.math.NumberUtils;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @AllArgsConstructor
 @Getter
 @Setter
@@ -108,8 +109,27 @@ public class FoodMenu implements Serializable {
         this.status = this.status.spent();
     }
 
+    private void checkIfSoldOut() {
+        boolean stillItemsAvailable = this.getItems().parallelStream().anyMatch(Item::isAvailable);
+        if (!stillItemsAvailable) {
+            if (log.isDebugEnabled()) {
+                log.debug("Menu is SOLDOUT!");
+            }
+            this.status = this.status.spent();
+        }
+    }
+
+    public void prepareToSell() {
+        if (this.status == Status.CLOSED) {
+            throw new IllegalStateException("Menu is CLOSED");
+        }
+        if (this.status == Status.SOLD_OUT) {
+            throw new IllegalStateException("El menú está agotado!");
+        }
+    }
+
     public void takeItem(final String itemId, final Integer quantity) {
-        List<Item> updatedItems = new ArrayList<>(CollectionUtils.size(this.getItems()));
+        prepareToSell();
         int i = 0;
         for (Item item : this.getItems()) {
             if (StringUtils.equals(item.getId(), itemId)) {
@@ -119,7 +139,7 @@ public class FoodMenu implements Serializable {
             }
             i++;
         }
-        this.setItems(updatedItems);
+        checkIfSoldOut();
     }
 
     public Item getItem(String itemId) {
@@ -148,30 +168,36 @@ public class FoodMenu implements Serializable {
         private LocalDateTime createdTime;
         private String name;
         private String description;
-        private Integer quantityAvailable;
+        private Integer stock;
         private BigDecimal price;
         private Integer takenOrders;
         private String image;
 
         public Integer getQuantityAvailable() {
-            if (!Optional.ofNullable(this.quantityAvailable).isPresent()) {
-                return this.quantityAvailable;
+            if (!Optional.ofNullable(this.stock).isPresent()) {
+                return this.stock;
             }
             Integer takenOrders = Optional.ofNullable(this.getTakenOrders()).isPresent() ? this.getTakenOrders() : NumberUtils.INTEGER_ZERO;
-            return (this.quantityAvailable - takenOrders);
+            return (this.stock - takenOrders);
         }
 
         public boolean isAvailable() {
+            if (this.takenOrders == null) {
+                this.takenOrders = 0;
+            }
             return (this.getQuantityAvailable() - this.getTakenOrders()) > 0;
         }
 
         public boolean hasEnough(Integer quantity) {
-            return quantity > this.getQuantityAvailable();
+            return this.getQuantityAvailable() >= quantity;
         }
 
         public void take(Integer quantity) {
             if (!hasEnough(quantity)) {
                 throw new ItemMenuNotAvailable(this.id);
+            }
+            if (this.takenOrders == null) {
+                this.takenOrders = 0;
             }
             this.takenOrders = this.takenOrders + quantity;
         }
