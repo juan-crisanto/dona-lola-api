@@ -45,7 +45,7 @@ public class FromJsonFoodMenuFactoryTest {
         itemMenuJson.setDescription("Lomo fino saltado con papas fritas y arroz blanco");
         itemMenuJson.setName("Lomo Saltado");
         itemMenuJson.setPrice(new BigDecimal("11.50"));
-        itemMenuJson.setQuantityAvailable(10);
+        itemMenuJson.setStock(10);
 
         json.setItems(Arrays.asList(itemMenuJson));
 

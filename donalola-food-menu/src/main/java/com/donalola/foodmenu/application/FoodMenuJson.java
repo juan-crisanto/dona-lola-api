@@ -57,6 +57,8 @@ public class FoodMenuJson {
         private BigDecimal price;
         @ApiModelProperty(value = "Cantidad que será ofertada para este plato")
         @NotNull
+        private Integer stock;
+        @ApiModelProperty(value = "Cantidad disponible en stock", readOnly = true)
         private Integer quantityAvailable;
         @ApiModelProperty(value = "Número de pedidos sobre este plato", readOnly = true)
         private Integer takenOrders;

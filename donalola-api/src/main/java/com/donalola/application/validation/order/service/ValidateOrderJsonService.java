@@ -74,9 +74,11 @@ public class ValidateOrderJsonService implements ValidateService {
     }
 
     private void hasEnougStock(final FoodMenu foodMenu, final Map<String, Integer> itemsAndQuantity) {
-        itemsAndQuantity.forEach((s, integer) -> {
-            foodMenu.isItemAvailable(s, integer);
-        });
+        for (String itemId : itemsAndQuantity.keySet()) {
+            if (!foodMenu.isItemAvailable(itemId, itemsAndQuantity.get(itemId))) {
+                throw new FoodMenu.ItemMenuNotAvailable(itemId);
+            }
+        }
     }
 
     private Map<String, Integer> getQuantityItems(final List<OrderJson.ItemJson> itemJsonList, final String menuId) {
