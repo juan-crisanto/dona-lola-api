@@ -39,7 +39,7 @@ public class OrderRestService extends BaseController {
         this.orderManager = orderManager;
     }
 
-    @PutMapping
+    @PostMapping(value = "/add")
     @ApiOperation(nickname = "Nuevo Pedido", value = "Se ingresa un nuevo pedido al sistema")
     public OrderJson newOrder(@ValidableParam @RequestBody OrderJson newOrder, BindingResult bindingResult, Principal principal) {
         Order order = this.orderJsonOrderFactory.create(newOrder);
