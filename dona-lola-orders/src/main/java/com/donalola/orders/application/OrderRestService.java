@@ -1,5 +1,6 @@
 package com.donalola.orders.application;
 
+import com.donalola.CustomerID;
 import com.donalola.application.ValidableParam;
 import com.donalola.core.rest.service.BaseController;
 import com.donalola.orders.Order;
@@ -46,10 +47,47 @@ public class OrderRestService extends BaseController {
         return this.orderJsonOrderFactory.create(this.orderManager.addOrder(order, principal));
     }
 
+    @PostMapping(value = "/{orderId}/ready")
+    @ApiOperation(nickname = "Pedido listo para la entrega", value = "Avisa al cliente que su pedido está listo para ser recogido")
+    public OrderJson orderReady(@PathVariable String orderId) {
+        Order order = this.orderManager.prepareToDeliver(orderId);
+        return this.orderJsonOrderFactory.create(order);
+    }
+
+    @PostMapping(value = "/{orderId}/deliver")
+    @ApiOperation(nickname = "Indica que la orden fue entregada o recibida", value = "Indica que la orden ya fue entregada o recibida")
+    public OrderJson delivered(@PathVariable String orderId) {
+        Order order = this.orderManager.deliver(orderId);
+        return this.orderJsonOrderFactory.create(order);
+    }
+
     @GetMapping(value = "/by/food-place/{foodPlaceId}")
     @ApiOperation(nickname = "Listar mis órdenes", value = "Listar la órdenes para el día de hoy")
     public List<OrderJson> todayOrders(@PathVariable String foodPlaceId) {
         Orders orders = this.orderManager.listTodayOrdersFoodPlace(foodPlaceId);
+        List<OrderJson> orderJsonList = new ArrayList<>();
+        orders.forEach(order -> {
+            orderJsonList.add(this.orderJsonOrderFactory.create(order));
+        });
+        return orderJsonList;
+    }
+
+    @GetMapping(value = "/user/status/{status}")
+    @ApiOperation(nickname = "Listar mis órdenes en un estado específico", value = "Listar mis órdenes en un estado específico")
+    public List<OrderJson> myOrdersOnStatus(@PathVariable String status, Principal principal) {
+        Order.Status orderStatus = Order.Status.valueOf(status);
+        Orders orders = this.orderManager.listByCustomerOnStatus(new CustomerID(principal.getName()), orderStatus);
+        List<OrderJson> orderJsonList = new ArrayList<>();
+        orders.forEach(order -> {
+            orderJsonList.add(this.orderJsonOrderFactory.create(order));
+        });
+        return orderJsonList;
+    }
+
+    @GetMapping(value = "/user")
+    @ApiOperation(nickname = "Listar mis órdenes", value = "Listar mis órdenes")
+    public List<OrderJson> myOrders(Principal principal) {
+        Orders orders = this.orderManager.listByCustomer(new CustomerID(principal.getName()));
         List<OrderJson> orderJsonList = new ArrayList<>();
         orders.forEach(order -> {
             orderJsonList.add(this.orderJsonOrderFactory.create(order));

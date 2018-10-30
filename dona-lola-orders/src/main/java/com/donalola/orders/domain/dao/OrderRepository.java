@@ -8,4 +8,7 @@ public interface OrderRepository {
 
     Order addOrder(Order order);
 
+    Order update(Order order);
+
+
 }
