@@ -37,7 +37,7 @@ public class FoodMenuRestService extends BaseController {
         this.foodMenuFactory = foodMenuFactory;
     }
 
-    @PutMapping
+    @PostMapping(value = "/add")
     @ApiOperation(value = "Agrega un nuevo menú a un Local. Debe incluir los ítems del menú a ofrecer")
     public FoodMenuJson addMenuWithItems(@RequestBody FoodMenuJson foodMenu, BindingResult bindingResult, Principal principal) {
         if (log.isDebugEnabled()) {
@@ -46,7 +46,7 @@ public class FoodMenuRestService extends BaseController {
         return this.foodMenuFactory.create(this.foodMenuManager.addMenuWithItems(this.foodMenuFactory.create(foodMenu)));
     }
 
-    @PutMapping(value = "/{menuId}/item")
+    @PostMapping(value = "/{menuId}/item")
     @ApiOperation(value = "Agrega un nuevo item al menú de un Local.")
     public FoodMenuJson addItem(@PathVariable String menuId, @RequestBody List<FoodMenuJson.ItemJson> itemJsonList, BindingResult bindingResult) {
         FoodMenuJson menuJson = new FoodMenuJson();
