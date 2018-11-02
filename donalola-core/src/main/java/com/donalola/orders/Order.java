@@ -17,7 +17,59 @@ public class Order implements Serializable {
     private static final long serialVersionUID = -2667895201434490624L;
 
     public enum Status {
-        OPEN, REJECTED, CANCELED, DELIVERED
+        OPEN {
+            @Override
+            public Status setReady() {
+                return READY_TO_DELIVER;
+            }
+
+            @Override
+            public boolean onFinalStaus() {
+                return false;
+            }
+
+            @Override
+            public Status setDelivered() {
+                throw new IllegalStateException(String.format("The order is not %s yet", READY_TO_DELIVER));
+            }
+        }, REJECTED {
+
+        }, CANCELED {
+
+        }, READY_TO_DELIVER {
+            @Override
+            public Status setReady() {
+                return this;
+            }
+
+            @Override
+            public boolean onFinalStaus() {
+                return false;
+            }
+
+            @Override
+            public Status setDelivered() {
+                return DELIVERED;
+            }
+        }, DELIVERED {
+            @Override
+            public Status setDelivered() {
+                return this;
+            }
+        };
+
+        public Status setReady() {
+            throw new IllegalStateException(String.format("The Order is already %s", this));
+        }
+
+        public boolean onFinalStaus() {
+            return true;
+        }
+
+        public Status setDelivered() {
+            throw new IllegalStateException(String.format("The Order is already %s", this));
+        }
+
     }
 
     public enum PaymentMethod {
@@ -44,6 +96,18 @@ public class Order implements Serializable {
     public void setItems(List<Item> items) {
         this.items = items;
         this.totalPrice = this.calculateTotalPrice();
+    }
+
+    public boolean isAvailable() {
+        return !this.getStatus().onFinalStaus();
+    }
+
+    public void setReady() {
+        this.status = this.status.setReady();
+    }
+
+    public void deliver() {
+        this.status = this.status.setDelivered();
     }
 
     private BigDecimal calculateTotalPrice() {

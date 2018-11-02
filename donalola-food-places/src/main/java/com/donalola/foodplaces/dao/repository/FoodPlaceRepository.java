@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface FoodPlaceRepository extends JpaRepository<FoodPlaceEntity, Long> {
 
-    List<FoodPlaceEntity> findAllByName(String name);
+    List<FoodPlaceEntity> findAllByNameContaining(String name);
 
-    List<FoodPlaceEntity> findAllByDistrict(String district);
+
 }

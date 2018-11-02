@@ -1,5 +1,6 @@
 package com.donalola.orders.infraestructure.dao.repository;
 
+import com.donalola.CustomerID;
 import com.donalola.core.SimpleIterable;
 import com.donalola.orders.Order;
 import com.donalola.orders.Orders;
@@ -56,9 +57,36 @@ public class OrderDynamoRepository implements OrderRepository, Orders {
     }
 
     @Override
+    public Order update(Order order) {
+        OrderDynamoEntity entity = this.factory.create(order);
+        OrderDynamoEntity savedEntity = this.orderDynamoCrudRepository.save(entity);
+        Order newOrder = this.factory.create(savedEntity);
+        return newOrder;
+    }
+
+    @Override
     public Orders listTodayFoodPlaceOrders(String foodPlaceId) {
         LocalDateTime todayInitTime = LocalDate.now().atTime(LocalTime.MIN);
         List<OrderDynamoEntity> orderDynamoEntityList = this.orderDynamoCrudRepository.findAllByFoodPlaceIdAndCreatedDatetimeAfter(foodPlaceId, todayInitTime);
+        return createSimpleIterable(orderDynamoEntityList);
+    }
+
+    @Override
+    public Orders listByCustomerID(CustomerID customerID) {
+        List<OrderDynamoEntity> orderDynamoEntityList = this.orderDynamoCrudRepository.findAllByCustomerId(customerID.toString());
+        return createSimpleIterable(orderDynamoEntityList);
+    }
+
+    @Override
+    public Orders listByCustomerOnStatus(CustomerID customerID, Order.Status status) {
+        List<OrderDynamoEntity> orderDynamoEntityList = this.orderDynamoCrudRepository.findAllByCustomerIdAndStatus(customerID.toString(), status.name());
+        return createSimpleIterable(orderDynamoEntityList);
+    }
+
+    @Override
+    public Orders listTodayFoodPlaceOrdersOnStatus(String foodPlaceId, Order.Status status) {
+        LocalDateTime todayInitTime = LocalDate.now().atTime(LocalTime.MIN);
+        List<OrderDynamoEntity> orderDynamoEntityList = this.orderDynamoCrudRepository.findAllByFoodPlaceIdAndCreatedDatetimeAfterAndStatus(foodPlaceId, todayInitTime, status.name());
         return createSimpleIterable(orderDynamoEntityList);
     }
 
@@ -78,6 +106,21 @@ public class OrderDynamoRepository implements OrderRepository, Orders {
 
         @Override
         public Orders listTodayFoodPlaceOrders(String foodPlaceId) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Orders listByCustomerID(CustomerID customerID) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Orders listByCustomerOnStatus(CustomerID customerID, Order.Status status) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Orders listTodayFoodPlaceOrdersOnStatus(String foodPlaceId, Order.Status status) {
             throw new UnsupportedOperationException();
         }
     }

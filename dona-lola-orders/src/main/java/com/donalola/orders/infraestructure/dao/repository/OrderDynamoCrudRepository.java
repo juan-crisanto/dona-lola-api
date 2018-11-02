@@ -16,4 +16,11 @@ public interface OrderDynamoCrudRepository extends CrudRepository<OrderDynamoEnt
     Optional<OrderDynamoEntity> findById(@Param("id") String s);
 
     List<OrderDynamoEntity> findAllByFoodPlaceIdAndCreatedDatetimeAfter(String foodPlaceId, LocalDateTime localDateTime);
+
+    List<OrderDynamoEntity> findAllByCustomerId(String customerId);
+
+    List<OrderDynamoEntity> findAllByCustomerIdAndStatus(String customerId, String status);
+
+    List<OrderDynamoEntity> findAllByFoodPlaceIdAndCreatedDatetimeAfterAndStatus(String foodPlaceId, LocalDateTime localDateTime, String status);
+
 }
