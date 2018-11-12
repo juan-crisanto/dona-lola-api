@@ -17,7 +17,8 @@ import org.springframework.context.annotation.Configuration;
         basePackages = {
                 "com.donalola.application.config.dao",
                 "com.donalola.foodmenu.infraestructure.dao",
-                "com.donalola.orders.infraestructure.dao"
+                "com.donalola.orders.infraestructure.dao",
+                "com.donalola.chef.infraestructure.dao"
         })
 public class DynamoDBConfig {
 

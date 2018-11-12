@@ -18,6 +18,7 @@
         <module>donalola-food-menu</module>
         <module>dona-lola-war</module>
         <module>dona-lola-orders</module>
+        <module>dona-lola-chef</module>
     </modules>
     <packaging>pom</packaging>
 
