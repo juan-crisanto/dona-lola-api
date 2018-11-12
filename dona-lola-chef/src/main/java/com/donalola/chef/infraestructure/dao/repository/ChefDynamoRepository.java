@@ -4,6 +4,7 @@ import com.donalola.ChefID;
 import com.donalola.chef.domain.Chef;
 import com.donalola.chef.domain.ChefRepository;
 import com.donalola.chef.infraestructure.dao.entity.ChefDynamoEntity;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.IterableUtils;
 import org.springframework.stereotype.Component;
 
@@ -55,7 +56,12 @@ public class ChefDynamoRepository implements ChefRepository {
 
     @Override
     public List<Chef> findByName(String name) {
-        return null;
+        List<ChefDynamoEntity> entityList = this.chefDynamoCrudRepository.findAllByNameContaining(name);
+        List<Chef> chefList = new ArrayList<>(CollectionUtils.size(entityList));
+        entityList.forEach(chefDynamoEntity -> {
+            chefList.add(chefDynamoEntity.convert());
+        });
+        return chefList;
     }
 
     @Override

@@ -9,7 +9,7 @@ public interface ChefManager {
 
     Chef add(Chef chef);
 
-    List<Chef> listNearOf(Location location);
+    List<Chef> listNearOf(Location location, Integer radius);
 
     Chef get(ChefID chefID);
 

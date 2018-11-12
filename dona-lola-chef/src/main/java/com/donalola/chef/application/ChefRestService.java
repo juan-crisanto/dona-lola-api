@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -47,6 +50,42 @@ public class ChefRestService {
                 .build();
         Chef addedChef = this.chefManager.add(chef);
         return ChefJson.of(addedChef);
+    }
+
+    @PostMapping(value = "/nearby")
+    public List<ChefJson> findNearbyChefs(@RequestBody FindNearbyChefsRequest request) {
+        Location location = new Location();
+        location.setLatitude(request.getLatitude());
+        location.setLongitude(request.getLongitude());
+        List<Chef> chefList = this.chefManager.listNearOf(location, request.getRadius());
+        List<ChefJson> chefJsonList = new ArrayList<>(CollectionUtils.size(chefList));
+        chefList.parallelStream().forEach(chef -> chefJsonList.add(ChefJson.of(chef)));
+        return chefJsonList;
+    }
+
+    @PostMapping(value = "/by/name")
+    public List<ChefJson> findChefsByName(@RequestBody FindChefsByNameRequest request) {
+        List<Chef> chefList = this.chefManager.findByName(request.getName());
+        List<ChefJson> chefJsonList = new ArrayList<>(CollectionUtils.size(chefList));
+        chefList.parallelStream().forEach(chef -> chefJsonList.add(ChefJson.of(chef)));
+        return chefJsonList;
+    }
+
+    @NoArgsConstructor
+    @Setter
+    @Getter
+    public static class FindChefsByNameRequest {
+        private String name;
+    }
+
+
+    @NoArgsConstructor
+    @Setter
+    @Getter
+    public static class FindNearbyChefsRequest {
+        private double latitude;
+        private double longitude;
+        private Integer radius;
     }
 
 

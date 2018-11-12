@@ -10,9 +10,11 @@ import java.util.List;
 public class ChefServiceDelegator implements ChefManager {
 
     private final ChefRepository chefRepository;
+    private final ChefService chefService;
 
-    public ChefServiceDelegator(ChefRepository chefRepository) {
+    public ChefServiceDelegator(ChefRepository chefRepository, ChefService chefService) {
         this.chefRepository = chefRepository;
+        this.chefService = chefService;
     }
 
     @Override
@@ -21,8 +23,8 @@ public class ChefServiceDelegator implements ChefManager {
     }
 
     @Override
-    public List<Chef> listNearOf(Location location) {
-        return null;
+    public List<Chef> listNearOf(Location location, Integer radius) {
+        return this.chefService.findNearbyChefs(location, radius);
     }
 
     @Override
@@ -32,6 +34,6 @@ public class ChefServiceDelegator implements ChefManager {
 
     @Override
     public List<Chef> findByName(String name) {
-        return null;
+        return this.chefRepository.findByName(name);
     }
 }
