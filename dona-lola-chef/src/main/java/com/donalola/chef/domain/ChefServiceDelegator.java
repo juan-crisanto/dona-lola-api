@@ -29,11 +29,16 @@ public class ChefServiceDelegator implements ChefManager {
 
     @Override
     public Chef get(ChefID chefID) {
-        return null;
+        return this.chefRepository.get(chefID);
     }
 
     @Override
     public List<Chef> findByName(String name) {
         return this.chefRepository.findByName(name);
+    }
+
+    @Override
+    public Chef getByUserId(String userId) {
+        return this.chefRepository.getByUser(userId);
     }
 }

@@ -14,4 +14,6 @@ public interface ChefManager {
     Chef get(ChefID chefID);
 
     List<Chef> findByName(String name);
+
+    Chef getByUserId(String userId);
 }

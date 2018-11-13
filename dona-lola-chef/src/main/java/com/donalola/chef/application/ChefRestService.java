@@ -1,5 +1,6 @@
 package com.donalola.chef.application;
 
+import com.donalola.ChefID;
 import com.donalola.chef.domain.Chef;
 import com.donalola.chef.domain.ChefManager;
 import com.donalola.core.Location;
@@ -11,10 +12,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -36,6 +34,16 @@ public class ChefRestService {
 
     public ChefRestService(ChefManager chefManager) {
         this.chefManager = chefManager;
+    }
+
+    @GetMapping(value = "/{chefId}")
+    public ChefJson get(@PathVariable(value = "chefId") String chefId) {
+        return ChefJson.of(this.chefManager.get(ChefID.of(chefId)));
+    }
+
+    @GetMapping(value = "/me")
+    public ChefJson getMine(Principal principal) {
+        return ChefJson.of(this.chefManager.getByUserId(principal.getName()));
     }
 
     @PostMapping(value = "/add")
