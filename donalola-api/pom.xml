@@ -5,7 +5,7 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>com.donalola</groupId>
-        <version>1.5.1-SNAPSHOT</version>
+        <version>1.6.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
@@ -21,6 +21,11 @@
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>donalola-food-places</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>dona-lola-chef</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
