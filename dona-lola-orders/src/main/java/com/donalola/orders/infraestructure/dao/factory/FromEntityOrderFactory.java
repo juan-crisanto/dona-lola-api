@@ -6,6 +6,7 @@ import com.donalola.FoodPlaceID;
 import com.donalola.orders.Order;
 import com.donalola.orders.domain.factory.OrderFactory;
 import com.donalola.orders.infraestructure.dao.entity.OrderDynamoEntity;
+import com.donalola.util.LocalDateTimeUtil;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -28,10 +29,10 @@ public class FromEntityOrderFactory implements OrderFactory<OrderDynamoEntity> {
     public OrderDynamoEntity create(Order order) {
         OrderDynamoEntity entity = OrderEntityToDomainMapper.MAPPER.toEntity(order);
         if (!Optional.ofNullable(entity.getCreatedDatetime()).isPresent()) {
-            entity.setCreatedDatetime(LocalDateTime.now());
+            entity.setCreatedDatetime(LocalDateTimeUtil.getFrom(LocalDateTime.now(), LocalDateTimeUtil.PERU_ZONE_ID));
         }
         if (!Optional.ofNullable(entity.getModifiedDatetime()).isPresent()) {
-            entity.setModifiedDatetime(LocalDateTime.now());
+            entity.setModifiedDatetime(LocalDateTimeUtil.getFrom(LocalDateTime.now(), LocalDateTimeUtil.PERU_ZONE_ID));
         }
         entity.setCustomerId(order.getCustomerID().toString());
         entity.setFoodPlaceId(order.getFoodPlaceID().toString());
