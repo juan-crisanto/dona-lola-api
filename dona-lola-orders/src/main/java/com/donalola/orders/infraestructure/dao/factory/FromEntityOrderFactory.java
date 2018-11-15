@@ -20,7 +20,7 @@ public class FromEntityOrderFactory implements OrderFactory<OrderDynamoEntity> {
         Order order = OrderEntityToDomainMapper.MAPPER.toDomain(source);
         order.setCustomerID(new CustomerID(source.getCustomerId()));
         order.setFoodPlaceID(new FoodPlaceID(source.getFoodPlaceId()));
-        order.setCustomerDetails(new CustomerDetails(source.getCustomerName(), null, null));
+        order.setCustomerDetails(CustomerDetails.of(source.getCustomerName(), null, null));
         return order;
 
     }

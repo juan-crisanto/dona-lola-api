@@ -1,14 +1,16 @@
 package com.donalola;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.Value;
 
 import java.io.Serializable;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+@Value(staticConstructor = "of")
+@RequiredArgsConstructor(staticName = "of")
+@Getter
+@Setter
 public final class CustomerDetails implements Serializable {
 
     private String name;
