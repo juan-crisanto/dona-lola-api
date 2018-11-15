@@ -38,23 +38,6 @@ public class ChefDynamoRepository implements ChefRepository {
     }
 
     @Override
-    public Chef update(Chef chef) {
-        get(chef.getId());
-        ChefDynamoEntity savedEntity = this.chefDynamoCrudRepository.save(ChefDynamoEntity.of(chef));
-        return savedEntity.convert();
-    }
-
-    @Override
-    public Chef getByUser(String userId) {
-        List<ChefDynamoEntity> entityList = this.chefDynamoCrudRepository.findAllByUserId(userId);
-        Optional<ChefDynamoEntity> entity = entityList.parallelStream().findFirst();
-        if (!entity.isPresent()) {
-            throw new IllegalArgumentException("No se ha creado ningún chef para esta cuenta");
-        }
-        return entity.get().convert();
-    }
-
-    @Override
     public List<Chef> findByName(String name) {
         List<ChefDynamoEntity> entityList = this.chefDynamoCrudRepository.findAllByNameContaining(name);
         List<Chef> chefList = new ArrayList<>(CollectionUtils.size(entityList));

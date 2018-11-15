@@ -14,7 +14,5 @@ public interface ChefDynamoCrudRepository extends CrudRepository<ChefDynamoEntit
     @Override
     Optional<ChefDynamoEntity> findById(@Param("id") String s);
 
-    List<ChefDynamoEntity> findAllByUserId(String userId);
-
     List<ChefDynamoEntity> findAllByNameContaining(String name);
 }

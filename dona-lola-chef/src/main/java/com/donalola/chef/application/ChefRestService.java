@@ -6,6 +6,7 @@ import com.donalola.chef.domain.ChefManager;
 import com.donalola.core.Location;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -43,31 +44,16 @@ public class ChefRestService {
 
     @GetMapping(value = "/me")
     public ChefJson getMine(Principal principal) {
-        return ChefJson.of(this.chefManager.getByUserId(principal.getName()));
+        return ChefJson.of(this.chefManager.get(ChefID.of(principal.getName())));
     }
 
-    @PostMapping(value = "/add")
+    @PostMapping(value = "/save")
     public ChefJson addChef(@RequestBody ChefJson chefJson, Principal principal) {
-        Chef chef = Chef.builder()
+        Chef chef = Chef.builder(ChefID.of(principal.getName()))
                 .Base64Image(chefJson.getImage())
                 .ClosingOn(chefJson.getClosingSchedule())
                 .OpeningOn(chefJson.getOpeningSchedule())
                 .Location(chefJson.getLocation())
-                .Owner(principal)
-                .Name(chefJson.getName())
-                .build();
-        Chef addedChef = this.chefManager.add(chef);
-        return ChefJson.of(addedChef);
-    }
-
-    @PostMapping(value = "/update")
-    public ChefJson update(@RequestBody ChefJson chefJson, Principal principal) {
-        Chef chef = Chef.builder()
-                .Base64Image(chefJson.getImage())
-                .ClosingOn(chefJson.getClosingSchedule())
-                .OpeningOn(chefJson.getOpeningSchedule())
-                .Location(chefJson.getLocation())
-                .Owner(principal)
                 .Name(chefJson.getName())
                 .build();
         Chef addedChef = this.chefManager.add(chef);
@@ -126,6 +112,7 @@ public class ChefRestService {
             this.location = chef.getLocation();
         }
 
+        @ApiModelProperty(readOnly = true)
         private String id;
         private String name;
         private String image;

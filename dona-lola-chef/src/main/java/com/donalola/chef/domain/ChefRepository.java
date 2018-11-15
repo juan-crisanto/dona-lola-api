@@ -10,10 +10,6 @@ public interface ChefRepository {
 
     Chef save(Chef chef);
 
-    Chef update(Chef chef);
-
-    Chef getByUser(String userId);
-
     List<Chef> findByName(String name);
 
     List<Chef> findAll();

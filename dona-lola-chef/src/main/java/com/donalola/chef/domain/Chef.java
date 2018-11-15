@@ -8,15 +8,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
-import java.security.Principal;
-
 @Setter(AccessLevel.PRIVATE)
 @Getter
 public class Chef implements Geolocated {
 
     private Chef(Builder builder) {
         this.id = builder.id;
-        this.userId = builder.userId;
         this.name = builder.name;
         this.image = builder.image;
         this.openingSchedule = builder.openingSchedule;
@@ -25,8 +22,6 @@ public class Chef implements Geolocated {
     }
 
     private ChefID id;
-
-    private String userId;
 
     private String name;
 
@@ -38,8 +33,8 @@ public class Chef implements Geolocated {
 
     private Location location;
 
-    public static Builder builder() {
-        return new Builder();
+    public static Builder builder(ChefID chefID) {
+        return new Builder(chefID);
     }
 
     @Override
@@ -54,12 +49,7 @@ public class Chef implements Geolocated {
 
     public static class Builder {
 
-        private Builder() {
-        }
-
         private ChefID id;
-
-        private String userId;
 
         private String name;
 
@@ -71,9 +61,8 @@ public class Chef implements Geolocated {
 
         private Location location;
 
-        public Builder ChefID(ChefID chefID) {
+        private Builder(ChefID chefID) {
             this.id = chefID;
-            return this;
         }
 
         public Builder Name(String name) {
@@ -81,19 +70,6 @@ public class Chef implements Geolocated {
                 throw new IllegalArgumentException("Chef name can't be null or empty");
             }
             this.name = name;
-            return this;
-        }
-
-        public Builder OwnerId(String ownerId) {
-            this.userId = ownerId;
-            return this;
-        }
-
-        public Builder Owner(Principal principal) {
-            if (principal == null) {
-                throw new IllegalArgumentException("Owner of Chef can't be null");
-            }
-            this.userId = principal.getName();
             return this;
         }
 
