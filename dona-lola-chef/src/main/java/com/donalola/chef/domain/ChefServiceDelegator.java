@@ -37,8 +37,4 @@ public class ChefServiceDelegator implements ChefManager {
         return this.chefRepository.findByName(name);
     }
 
-    @Override
-    public Chef getByUserId(String userId) {
-        return this.chefRepository.getByUser(userId);
-    }
 }
