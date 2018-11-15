@@ -43,7 +43,7 @@ public class ValidateOrderJsonService implements ValidateService {
     private void completeCustomerInfo(OrderJson orderJson) {
         AppUser appUser = SecurityApplicationUtil.getUser();
         orderJson.setCustomerId(appUser.getUsername());
-        orderJson.setCustomerDetails(new CustomerDetails(appUser.getName(), appUser.getEmail(), StringUtils.EMPTY));
+        orderJson.setCustomerDetails(CustomerDetails.of(appUser.getName(), appUser.getEmail(), StringUtils.EMPTY));
     }
 
     private void completeAndValidateItems(OrderJson orderJson) {

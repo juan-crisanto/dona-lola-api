@@ -60,6 +60,20 @@ public class ChefRestService {
         return ChefJson.of(addedChef);
     }
 
+    @PostMapping(value = "/update")
+    public ChefJson update(@RequestBody ChefJson chefJson, Principal principal) {
+        Chef chef = Chef.builder()
+                .Base64Image(chefJson.getImage())
+                .ClosingOn(chefJson.getClosingSchedule())
+                .OpeningOn(chefJson.getOpeningSchedule())
+                .Location(chefJson.getLocation())
+                .Owner(principal)
+                .Name(chefJson.getName())
+                .build();
+        Chef addedChef = this.chefManager.add(chef);
+        return ChefJson.of(addedChef);
+    }
+
     @PostMapping(value = "/nearby")
     public List<ChefJson> findNearbyChefs(@RequestBody FindNearbyChefsRequest request) {
         Location location = new Location();

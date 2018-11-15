@@ -18,7 +18,8 @@ import org.springframework.context.annotation.Configuration;
                 "com.donalola.application.config.dao",
                 "com.donalola.foodmenu.infraestructure.dao",
                 "com.donalola.orders.infraestructure.dao",
-                "com.donalola.chef.infraestructure.dao"
+                "com.donalola.chef.infraestructure.dao",
+                "com.donalola.customer.infraestructure.dao"
         })
 public class DynamoDBConfig {
 
@@ -33,7 +34,6 @@ public class DynamoDBConfig {
     public AmazonDynamoDB amazonDynamoDB() {
         return AmazonDynamoDBClientBuilder.standard()
                 .withRegion(Regions.US_EAST_1)
-                //.withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(dynamoDbEndpoint, Regions.US_EAST_1.getName()))
                 .withCredentials(new AWSStaticCredentialsProvider(amazonAWSCredentials()))
                 .withClientConfiguration(new ClientConfiguration().withRequestTimeout(10000))
                 .build();

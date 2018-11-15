@@ -6,7 +6,7 @@
 
     <groupId>com.donalola</groupId>
     <artifactId>parent</artifactId>
-    <version>1.6.0-SNAPSHOT</version>
+    <version>1.6.1-SNAPSHOT</version>
     <modules>
         <module>donalola-commons</module>
         <module>donalola-core</module>
@@ -19,6 +19,7 @@
         <module>dona-lola-war</module>
         <module>dona-lola-orders</module>
         <module>dona-lola-chef</module>
+        <module>donalola-customer</module>
     </modules>
     <packaging>pom</packaging>
 
