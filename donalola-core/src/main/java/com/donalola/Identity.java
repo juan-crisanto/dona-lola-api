@@ -1,4 +1,4 @@
-package com.donalola.customer.domain;
+package com.donalola;
 
 import lombok.*;
 

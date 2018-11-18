@@ -5,12 +5,14 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
 import com.donalola.ChefID;
+import com.donalola.Identity;
 import com.donalola.chef.domain.Chef;
 import com.donalola.commons.dynamodb.util.DynamoDBConverter;
 import com.donalola.core.Location;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
@@ -27,6 +29,15 @@ public class ChefDynamoEntity {
 
     @DynamoDBAttribute(attributeName = "name")
     private String name;
+
+    @DynamoDBAttribute(attributeName = "identityType")
+    private String identityType;
+
+    @DynamoDBAttribute(attributeName = "identity")
+    private String identity;
+
+    @DynamoDBAttribute(attributeName = "phone")
+    private String phone;
 
     @DynamoDBTypeConverted(converter = DynamoDBConverter.LocalDateTimeConverter.class)
     @DynamoDBAttribute(attributeName = "createdDatetime")
@@ -63,6 +74,8 @@ public class ChefDynamoEntity {
                 .Base64Image(this.image)
                 .Location(location)
                 .Name(this.name)
+                .Identity(Identity.Type.valueOf(StringUtils.isEmpty(this.identityType) ? "DNI" : this.identityType), this.identity)
+                .Phone(this.phone)
                 .OpeningOn(this.openingSchedule)
                 .ClosingOn(this.closingSchedule)
                 .build();
@@ -82,6 +95,9 @@ public class ChefDynamoEntity {
         chefDynamoEntity.setLongitude(String.valueOf(chef.getLocation().getLongitude()));
         chefDynamoEntity.setAddress(chef.getLocation().getAddress());
         chefDynamoEntity.setDistrict(chef.getLocation().getDistrict());
+        chefDynamoEntity.setIdentityType(chef.getIdentity().getType().name());
+        chefDynamoEntity.setIdentity(chef.getIdentity().getValue());
+        chefDynamoEntity.setPhone(chef.getPhone());
         return chefDynamoEntity;
     }
 

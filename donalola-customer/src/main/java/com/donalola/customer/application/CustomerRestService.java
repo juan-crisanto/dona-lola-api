@@ -1,10 +1,10 @@
 package com.donalola.customer.application;
 
 import com.donalola.CustomerID;
+import com.donalola.Identity;
 import com.donalola.authentication.AppUser;
 import com.donalola.customer.domain.Customer;
 import com.donalola.customer.domain.CustomerRepository;
-import com.donalola.customer.domain.Identity;
 import com.donalola.util.security.SecurityContextUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;

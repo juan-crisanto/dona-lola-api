@@ -2,6 +2,7 @@ package com.donalola.chef.domain;
 
 import com.donalola.ChefID;
 import com.donalola.Geolocated;
+import com.donalola.Identity;
 import com.donalola.core.Location;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,6 +20,8 @@ public class Chef implements Geolocated {
         this.openingSchedule = builder.openingSchedule;
         this.closingSchedule = builder.closingSchedule;
         this.location = builder.location;
+        this.identity = builder.identity;
+        this.phone = builder.phone;
     }
 
     private ChefID id;
@@ -32,6 +35,10 @@ public class Chef implements Geolocated {
     private String closingSchedule;
 
     private Location location;
+
+    private Identity identity;
+
+    private String phone;
 
     public static Builder builder(ChefID chefID) {
         return new Builder(chefID);
@@ -60,6 +67,10 @@ public class Chef implements Geolocated {
         private String closingSchedule;
 
         private Location location;
+
+        private Identity identity;
+
+        private String phone;
 
         private Builder(ChefID chefID) {
             this.id = chefID;
@@ -93,6 +104,16 @@ public class Chef implements Geolocated {
                 throw new IllegalArgumentException("Location of a Chef can't be null");
             }
             this.location = location;
+            return this;
+        }
+
+        public Builder Identity(Identity.Type type, String value) {
+            this.identity = Identity.of(value, type);
+            return this;
+        }
+
+        public Builder Phone(String phone) {
+            this.phone = phone;
             return this;
         }
 
