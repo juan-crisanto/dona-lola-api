@@ -2,6 +2,7 @@ package com.donalola.customer.domain;
 
 import com.donalola.CustomerDetails;
 import com.donalola.CustomerID;
+import com.donalola.Identity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,7 @@
 package com.donalola.chef.application;
 
 import com.donalola.ChefID;
+import com.donalola.Identity;
 import com.donalola.chef.domain.Chef;
 import com.donalola.chef.domain.ChefManager;
 import com.donalola.core.Location;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,12 +51,17 @@ public class ChefRestService {
 
     @PostMapping(value = "/save")
     public ChefJson addChef(@RequestBody ChefJson chefJson, Principal principal) {
+        if (StringUtils.isEmpty(chefJson.dni)) {
+            chefJson.dni = "00000000";
+        }
         Chef chef = Chef.builder(ChefID.of(principal.getName()))
                 .Base64Image(chefJson.getImage())
                 .ClosingOn(chefJson.getClosingSchedule())
                 .OpeningOn(chefJson.getOpeningSchedule())
                 .Location(chefJson.getLocation())
                 .Name(chefJson.getName())
+                .Identity(Identity.Type.DNI, chefJson.dni)
+                .Phone(StringUtils.trimToEmpty(chefJson.phone))
                 .build();
         Chef addedChef = this.chefManager.add(chef);
         return ChefJson.of(addedChef);
@@ -110,6 +117,8 @@ public class ChefRestService {
             this.openingSchedule = chef.getOpeningSchedule();
             this.closingSchedule = chef.getClosingSchedule();
             this.location = chef.getLocation();
+            this.dni = chef.getIdentity().getValue();
+            this.phone = chef.getPhone();
         }
 
         @ApiModelProperty(readOnly = true)
@@ -119,6 +128,8 @@ public class ChefRestService {
         private String openingSchedule;
         private String closingSchedule;
         private Location location;
+        private String dni;
+        private String phone;
 
         public static ChefJson of(Chef chef) {
             if (chef == null) {

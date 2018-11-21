@@ -2,6 +2,7 @@ package com.donalola.foodmenu.application;
 
 import com.donalola.util.JsonFormatConstant;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -22,7 +23,7 @@ public class FoodMenuJson {
 
     @ApiModelProperty(value = "Identificador único de menú", readOnly = true)
     private String id;
-    @ApiModelProperty(value = "Id del Local de comida", required = true)
+    @JsonIgnore
     private String foodPlaceId;
     @ApiModelProperty(value = "Fecha y hora de creación del menú", readOnly = true)
     @JsonFormat(locale = JsonFormatConstant.DEFAULT_LOCALE_VALUE, timezone = JsonFormatConstant.DEFAULT_TIMEZONE)

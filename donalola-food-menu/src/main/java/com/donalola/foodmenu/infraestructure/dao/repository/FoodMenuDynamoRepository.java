@@ -8,6 +8,7 @@ import com.donalola.foodmenu.domain.factory.FoodMenuFactory;
 import com.donalola.foodmenu.infraestructure.dao.entity.FoodMenuDynamoEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.IterableUtils;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -55,10 +56,15 @@ public class FoodMenuDynamoRepository implements FoodMenuRepository, FoodMenus {
         if (!foodMenu.hasAnyItem()) {
             throw new IllegalArgumentException("Es necesario especificar los Items del menú");
         }
-        setItemIds(foodMenu);
-        FoodMenuDynamoEntity foodMenuDynamoEntity = this.foodMenuFactory.create(foodMenu);
-        FoodMenuDynamoEntity savedEntity = this.foodMenuDynamoCrudRepository.save(foodMenuDynamoEntity);
-        return this.foodMenuFactory.create(savedEntity);
+        FoodMenus foodMenus = listTodayFoodPlaceMenus(foodMenu.getFoodPlaceId());
+        if (IterableUtils.isEmpty(foodMenus)) {
+            setItemIds(foodMenu);
+            FoodMenuDynamoEntity foodMenuDynamoEntity = this.foodMenuFactory.create(foodMenu);
+            FoodMenuDynamoEntity savedEntity = this.foodMenuDynamoCrudRepository.save(foodMenuDynamoEntity);
+            return this.foodMenuFactory.create(savedEntity);
+        }
+        FoodMenu todayMenu = IterableUtils.get(foodMenus, 0);
+        return addItemsToMenu(todayMenu.getId(), foodMenu.getItems());
     }
 
     @Override

@@ -8,7 +8,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -39,16 +38,14 @@ public class FoodMenuRestService extends BaseController {
 
     @PostMapping(value = "/add")
     @ApiOperation(value = "Agrega un nuevo menú a un Local. Debe incluir los ítems del menú a ofrecer")
-    public FoodMenuJson addMenuWithItems(@RequestBody FoodMenuJson foodMenu, BindingResult bindingResult, Principal principal) {
-        if (log.isDebugEnabled()) {
-            log.debug("Add for principal: " + principal);
-        }
+    public FoodMenuJson addMenuWithItems(@RequestBody FoodMenuJson foodMenu, Principal principal) {
+        foodMenu.setFoodPlaceId(principal.getName());
         return this.foodMenuFactory.create(this.foodMenuManager.addMenuWithItems(this.foodMenuFactory.create(foodMenu)));
     }
 
     @PostMapping(value = "/{menuId}/item")
     @ApiOperation(value = "Agrega un nuevo item al menú de un Local.")
-    public FoodMenuJson addItem(@PathVariable String menuId, @RequestBody List<FoodMenuJson.ItemJson> itemJsonList, BindingResult bindingResult) {
+    public FoodMenuJson addItem(@PathVariable String menuId, @RequestBody List<FoodMenuJson.ItemJson> itemJsonList) {
         FoodMenuJson menuJson = new FoodMenuJson();
         menuJson.setId(menuId);
         menuJson.setItems(itemJsonList);
@@ -57,10 +54,22 @@ public class FoodMenuRestService extends BaseController {
     }
 
     @GetMapping(value = "/local/{idLocal}")
-    @ApiOperation(value = "Devuelve los menús del día del local indicado")
+    @ApiOperation(value = "Devuelve los menús del día del chef seleccionado")
     public List<FoodMenuJson> getByLocal(@PathVariable String idLocal) {
         List<FoodMenuJson> menuJsonList = new ArrayList<>();
-        this.foodMenuManager.listTodayFoodPlaceMenus(idLocal).forEach(foodMenu -> menuJsonList.add(this.foodMenuFactory.create(foodMenu)));
+        this.foodMenuManager
+                .listTodayFoodPlaceMenus(idLocal)
+                .forEach(foodMenu -> menuJsonList.add(this.foodMenuFactory.create(foodMenu)));
+        return menuJsonList;
+    }
+
+    @GetMapping(value = "/today")
+    @ApiOperation(value = "Devuelve los menús del día del chef seleccionado")
+    public List<FoodMenuJson> getTodayMenu(Principal principal) {
+        List<FoodMenuJson> menuJsonList = new ArrayList<>();
+        this.foodMenuManager
+                .listTodayFoodPlaceMenus(principal.getName())
+                .forEach(foodMenu -> menuJsonList.add(this.foodMenuFactory.create(foodMenu)));
         return menuJsonList;
     }
 

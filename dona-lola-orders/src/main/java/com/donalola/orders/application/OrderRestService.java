@@ -61,10 +61,10 @@ public class OrderRestService extends BaseController {
         return this.orderJsonOrderFactory.create(order);
     }
 
-    @GetMapping(value = "/by/food-place/{foodPlaceId}")
+    @GetMapping(value = "/me/today")
     @ApiOperation(nickname = "Listar mis órdenes", value = "Listar la órdenes para el día de hoy")
-    public List<OrderJson> todayOrders(@PathVariable String foodPlaceId) {
-        Orders orders = this.orderManager.listTodayOrdersFoodPlace(foodPlaceId);
+    public List<OrderJson> todayOrders(Principal principal) {
+        Orders orders = this.orderManager.listTodayOrdersFoodPlace(principal.getName());
         List<OrderJson> orderJsonList = new ArrayList<>();
         orders.forEach(order -> {
             orderJsonList.add(this.orderJsonOrderFactory.create(order));
