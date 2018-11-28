@@ -6,6 +6,7 @@ import com.donalola.foodmenu.JustToIterateFoodMenus;
 import com.donalola.foodmenu.domain.dao.repository.FoodMenuRepository;
 import com.donalola.foodmenu.domain.factory.FoodMenuFactory;
 import com.donalola.foodmenu.infraestructure.dao.entity.FoodMenuDynamoEntity;
+import com.donalola.util.LocalDateTimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.IterableUtils;
@@ -106,7 +107,7 @@ public class FoodMenuDynamoRepository implements FoodMenuRepository, FoodMenus {
 
     @Override
     public FoodMenus listTodayFoodPlaceMenus(String foodPlaceId) {
-        LocalDateTime todayInitTime = LocalDate.now().atTime(LocalTime.MIN);
+        LocalDateTime todayInitTime = LocalDateTimeUtil.getFrom(LocalDate.now().atTime(LocalTime.MIN), LocalDateTimeUtil.PERU_ZONE_ID);
         if (log.isDebugEnabled()) {
             log.debug(String.format("Getting menus of %s after %s", foodPlaceId, todayInitTime.toString()));
         }
