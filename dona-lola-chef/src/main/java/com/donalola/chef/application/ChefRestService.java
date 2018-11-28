@@ -114,6 +114,9 @@ public class ChefRestService {
             this.id = chef.getId().toString();
             this.name = chef.getName();
             this.image = chef.getImage();
+            if (StringUtils.isEmpty(this.image)) {
+                this.image = ChefConstant.DEFAULT_CHEF_PROFILE_IMAGE;
+            }
             this.openingSchedule = chef.getOpeningSchedule();
             this.closingSchedule = chef.getClosingSchedule();
             this.location = chef.getLocation();
