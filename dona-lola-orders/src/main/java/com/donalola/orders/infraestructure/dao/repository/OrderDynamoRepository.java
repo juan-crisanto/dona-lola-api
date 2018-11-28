@@ -7,6 +7,7 @@ import com.donalola.orders.Orders;
 import com.donalola.orders.domain.dao.OrderRepository;
 import com.donalola.orders.domain.factory.OrderFactory;
 import com.donalola.orders.infraestructure.dao.entity.OrderDynamoEntity;
+import com.donalola.util.LocalDateTimeUtil;
 import org.apache.commons.collections4.IterableUtils;
 import org.springframework.stereotype.Component;
 
@@ -66,7 +67,7 @@ public class OrderDynamoRepository implements OrderRepository, Orders {
 
     @Override
     public Orders listTodayFoodPlaceOrders(String foodPlaceId) {
-        LocalDateTime todayInitTime = LocalDate.now().atTime(LocalTime.MIN);
+        LocalDateTime todayInitTime = LocalDateTimeUtil.getFrom(LocalDate.now().atTime(LocalTime.MIN), LocalDateTimeUtil.PERU_ZONE_ID);
         List<OrderDynamoEntity> orderDynamoEntityList = this.orderDynamoCrudRepository.findAllByFoodPlaceIdAndCreatedDatetimeAfter(foodPlaceId, todayInitTime);
         return createSimpleIterable(orderDynamoEntityList);
     }
@@ -85,7 +86,7 @@ public class OrderDynamoRepository implements OrderRepository, Orders {
 
     @Override
     public Orders listTodayFoodPlaceOrdersOnStatus(String foodPlaceId, Order.Status status) {
-        LocalDateTime todayInitTime = LocalDate.now().atTime(LocalTime.MIN);
+        LocalDateTime todayInitTime = LocalDateTimeUtil.getFrom(LocalDate.now().atTime(LocalTime.MIN), LocalDateTimeUtil.PERU_ZONE_ID);
         List<OrderDynamoEntity> orderDynamoEntityList = this.orderDynamoCrudRepository.findAllByFoodPlaceIdAndCreatedDatetimeAfterAndStatus(foodPlaceId, todayInitTime, status.name());
         return createSimpleIterable(orderDynamoEntityList);
     }
