@@ -20,4 +20,6 @@ public interface OrderManager {
 
     Order deliver(String orderId);
 
+    Order preparing(String orderId);
+
 }

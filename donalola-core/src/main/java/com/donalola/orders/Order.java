@@ -32,6 +32,21 @@ public class Order implements Serializable {
             public Status setDelivered() {
                 throw new IllegalStateException(String.format("The order is not %s yet", READY_TO_DELIVER));
             }
+
+            @Override
+            public Status setPreparing() {
+                return ON_PROCESSS;
+            }
+        }, ON_PROCESSS {
+            @Override
+            public boolean onFinalStaus() {
+                return false;
+            }
+
+            @Override
+            public Status setReady() {
+                return READY_TO_DELIVER;
+            }
         }, REJECTED {
 
         }, CANCELED {
@@ -70,6 +85,10 @@ public class Order implements Serializable {
             throw new IllegalStateException(String.format("The Order is already %s", this));
         }
 
+        public Status setPreparing() {
+            throw new IllegalStateException(String.format("The Order is already %s", this));
+        }
+
     }
 
     public enum PaymentMethod {
@@ -104,6 +123,10 @@ public class Order implements Serializable {
 
     public void setReady() {
         this.status = this.status.setReady();
+    }
+
+    public void setPreparing() {
+        this.status = this.status.setPreparing();
     }
 
     public void deliver() {

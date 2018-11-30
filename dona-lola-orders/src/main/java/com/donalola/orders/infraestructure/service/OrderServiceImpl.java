@@ -27,4 +27,11 @@ public class OrderServiceImpl implements OrderService {
         order.deliver();
         return this.orderRepository.update(order);
     }
+
+    @Override
+    public Order setPreparing(String orderId) {
+        Order order = this.orderRepository.get(orderId);
+        order.setPreparing();
+        return this.orderRepository.update(order);
+    }
 }

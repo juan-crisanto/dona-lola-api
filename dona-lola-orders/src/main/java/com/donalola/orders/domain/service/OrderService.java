@@ -8,4 +8,6 @@ public interface OrderService {
 
     Order deliver(String orderId);
 
+    Order setPreparing(String orderId);
+
 }

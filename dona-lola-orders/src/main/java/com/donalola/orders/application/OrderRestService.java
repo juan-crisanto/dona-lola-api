@@ -61,6 +61,13 @@ public class OrderRestService extends BaseController {
         return this.orderJsonOrderFactory.create(order);
     }
 
+    @PostMapping(value = "/{orderId}/on-process")
+    @ApiOperation(nickname = "Indica que la orden se está preparando", value = "Indica que la orden está en proceso de preparación")
+    public OrderJson preparing(@PathVariable String orderId) {
+        Order order = this.orderManager.preparing(orderId);
+        return this.orderJsonOrderFactory.create(order);
+    }
+
     @GetMapping(value = "/me/today")
     @ApiOperation(nickname = "Listar mis órdenes", value = "Listar la órdenes para el día de hoy")
     public List<OrderJson> todayOrders(Principal principal) {

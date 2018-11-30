@@ -64,6 +64,11 @@ public class OrderManagerImpl implements OrderManager {
         return this.orderService.deliver(orderId);
     }
 
+    @Override
+    public Order preparing(String orderId) {
+        return this.orderService.setPreparing(orderId);
+    }
+
     private void publishNewOrderEvent(final Order order) {
         if (Optional.ofNullable(this.eventPublisher).isPresent()) {
             this.eventPublisher.publishEvent(new AddedOrderApplicationEvent(this, order));
