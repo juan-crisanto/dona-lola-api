@@ -107,7 +107,8 @@ public class FoodMenuDynamoRepository implements FoodMenuRepository, FoodMenus {
 
     @Override
     public FoodMenus listTodayFoodPlaceMenus(String foodPlaceId) {
-        LocalDateTime todayInitTime = LocalDateTimeUtil.getFrom(LocalDate.now().atTime(LocalTime.MIN), LocalDateTimeUtil.PERU_ZONE_ID);
+        LocalDateTime todayInitTime = LocalDateTimeUtil.getFrom(LocalDateTime.now(), LocalDateTimeUtil.PERU_ZONE_ID);
+        todayInitTime = LocalDateTime.of(todayInitTime.toLocalDate(), LocalTime.MIN);
         if (log.isDebugEnabled()) {
             log.debug(String.format("Getting menus of %s after %s", foodPlaceId, todayInitTime.toString()));
         }

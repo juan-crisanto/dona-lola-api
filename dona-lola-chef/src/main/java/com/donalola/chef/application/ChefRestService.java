@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -51,6 +52,9 @@ public class ChefRestService {
 
     @PostMapping(value = "/save")
     public ChefJson addChef(@RequestBody ChefJson chefJson, Principal principal) {
+        if (CollectionUtils.isEmpty(chefJson.attentionTypes)) {
+            chefJson.attentionTypes = Arrays.asList(Chef.AttentionType.PICK_UP);
+        }
         if (StringUtils.isEmpty(chefJson.dni)) {
             chefJson.dni = "00000000";
         }
@@ -62,6 +66,7 @@ public class ChefRestService {
                 .Name(chefJson.getName())
                 .Identity(Identity.Type.DNI, chefJson.dni)
                 .Phone(StringUtils.trimToEmpty(chefJson.phone))
+                .AttentionTypes(chefJson.getAttentionTypes())
                 .build();
         Chef addedChef = this.chefManager.add(chef);
         return ChefJson.of(addedChef);
@@ -122,6 +127,7 @@ public class ChefRestService {
             this.location = chef.getLocation();
             this.dni = chef.getIdentity().getValue();
             this.phone = chef.getPhone();
+            this.attentionTypes = chef.getAttentionTypes();
         }
 
         @ApiModelProperty(readOnly = true)
@@ -133,6 +139,7 @@ public class ChefRestService {
         private Location location;
         private String dni;
         private String phone;
+        private List<Chef.AttentionType> attentionTypes;
 
         public static ChefJson of(Chef chef) {
             if (chef == null) {

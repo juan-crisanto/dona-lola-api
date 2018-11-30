@@ -40,6 +40,7 @@ public class ChefServiceDelegator implements ChefManager {
                     .Location(chef.getLocation())
                     .Name(chef.getName())
                     .Phone(chef.getPhone())
+                    .AttentionTypes(chef.getAttentionTypes())
                     .build();
             return this.chefRepository.save(optimizedChef);
         }

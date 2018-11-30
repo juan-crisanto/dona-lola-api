@@ -12,10 +12,14 @@ import com.donalola.core.Location;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor
 @Getter
@@ -64,12 +68,18 @@ public class ChefDynamoEntity {
     @DynamoDBAttribute(attributeName = "closingSchedule")
     private String closingSchedule;
 
+    @DynamoDBAttribute(attributeName = "attentionTypes")
+    private List<String> attentionTypes;
+
     public Chef convert() {
         Location location = new Location();
         location.setAddress(this.address);
         location.setDistrict(this.district);
         location.setLatitude(Double.valueOf(this.latitude));
         location.setLongitude(Double.valueOf(this.longitude));
+        if (CollectionUtils.isEmpty(this.attentionTypes)) {
+            this.attentionTypes = Arrays.asList(Chef.AttentionType.PICK_UP.name());
+        }
         return Chef.builder(ChefID.of(this.id))
                 .Base64Image(this.image)
                 .Location(location)
@@ -78,6 +88,7 @@ public class ChefDynamoEntity {
                 .Phone(this.phone)
                 .OpeningOn(this.openingSchedule)
                 .ClosingOn(this.closingSchedule)
+                .AttentionTypes(this.attentionTypes.parallelStream().map(s -> Chef.AttentionType.valueOf(s)).collect(Collectors.toList()))
                 .build();
     }
 
@@ -98,6 +109,7 @@ public class ChefDynamoEntity {
         chefDynamoEntity.setIdentityType(chef.getIdentity().getType().name());
         chefDynamoEntity.setIdentity(chef.getIdentity().getValue());
         chefDynamoEntity.setPhone(chef.getPhone());
+        chefDynamoEntity.setAttentionTypes(chef.getAttentionTypes().parallelStream().map(attentionType -> attentionType.name()).collect(Collectors.toList()));
         return chefDynamoEntity;
     }
 

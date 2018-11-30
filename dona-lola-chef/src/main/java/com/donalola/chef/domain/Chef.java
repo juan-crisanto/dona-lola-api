@@ -7,7 +7,10 @@ import com.donalola.core.Location;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 @Setter(AccessLevel.PRIVATE)
 @Getter
@@ -22,6 +25,7 @@ public class Chef implements Geolocated {
         this.location = builder.location;
         this.identity = builder.identity;
         this.phone = builder.phone;
+        this.attentionTypes = builder.attentionTypes;
     }
 
     private ChefID id;
@@ -39,6 +43,12 @@ public class Chef implements Geolocated {
     private Identity identity;
 
     private String phone;
+
+    private List<AttentionType> attentionTypes;
+
+    public enum AttentionType {
+        DELIVER, PICK_UP
+    }
 
     public static Builder builder(ChefID chefID) {
         return new Builder(chefID);
@@ -71,6 +81,8 @@ public class Chef implements Geolocated {
         private Identity identity;
 
         private String phone;
+
+        private List<AttentionType> attentionTypes;
 
         private Builder(ChefID chefID) {
             this.id = chefID;
@@ -117,7 +129,18 @@ public class Chef implements Geolocated {
             return this;
         }
 
+        public Builder AttentionTypes(List<AttentionType> attentionTypes) {
+            if (CollectionUtils.isEmpty(attentionTypes)) {
+                throw new IllegalArgumentException("Must specify at least an attention type");
+            }
+            this.attentionTypes = attentionTypes;
+            return this;
+        }
+
         public Chef build() {
+            if (CollectionUtils.isEmpty(this.attentionTypes)) {
+                throw new IllegalArgumentException("Must specify at least an attention type");
+            }
             return new Chef(this);
         }
 
