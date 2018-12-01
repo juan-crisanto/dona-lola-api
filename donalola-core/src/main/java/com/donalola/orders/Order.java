@@ -107,6 +107,7 @@ public class Order implements Serializable {
     @Setter(AccessLevel.PRIVATE)
     private BigDecimal totalPrice;
     private String comment;
+    private AttentionType attentionType;
 
     public Order() {
         this.status = Status.OPEN;

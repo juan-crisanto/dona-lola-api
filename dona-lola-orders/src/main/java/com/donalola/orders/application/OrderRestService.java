@@ -1,5 +1,6 @@
 package com.donalola.orders.application;
 
+import com.donalola.AttentionType;
 import com.donalola.CustomerID;
 import com.donalola.application.ValidableParam;
 import com.donalola.core.rest.service.BaseController;
@@ -43,6 +44,9 @@ public class OrderRestService extends BaseController {
     @PostMapping(value = "/add")
     @ApiOperation(nickname = "Nuevo Pedido", value = "Se ingresa un nuevo pedido al sistema")
     public OrderJson newOrder(@ValidableParam @RequestBody OrderJson newOrder, BindingResult bindingResult, Principal principal) {
+        if (newOrder.getAttentionType() == null) {
+            newOrder.setAttentionType(AttentionType.PICK_UP);
+        }
         Order order = this.orderJsonOrderFactory.create(newOrder);
         return this.orderJsonOrderFactory.create(this.orderManager.addOrder(order, principal));
     }

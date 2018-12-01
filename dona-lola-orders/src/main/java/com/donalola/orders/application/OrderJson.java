@@ -1,5 +1,6 @@
 package com.donalola.orders.application;
 
+import com.donalola.AttentionType;
 import com.donalola.CustomerDetails;
 import com.donalola.ItemMenuDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -56,6 +57,9 @@ public class OrderJson implements Serializable {
 
     @ApiModelProperty(value = "Ítems del pedido", required = true)
     private List<ItemJson> items;
+
+    @ApiModelProperty(value = "Delivery o recojo en local", required = true, example = "PICK_UP", allowableValues = "PICK_UP|DELIVERY", allowEmptyValue = false)
+    private AttentionType attentionType;
 
 
     @ApiModel(value = "Ítem del pedido")

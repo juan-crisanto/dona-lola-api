@@ -1,5 +1,6 @@
 package com.donalola.chef.application;
 
+import com.donalola.AttentionType;
 import com.donalola.ChefID;
 import com.donalola.Identity;
 import com.donalola.chef.domain.Chef;
@@ -53,7 +54,7 @@ public class ChefRestService {
     @PostMapping(value = "/save")
     public ChefJson addChef(@RequestBody ChefJson chefJson, Principal principal) {
         if (CollectionUtils.isEmpty(chefJson.attentionTypes)) {
-            chefJson.attentionTypes = Arrays.asList(Chef.AttentionType.PICK_UP);
+            chefJson.attentionTypes = Arrays.asList(AttentionType.PICK_UP);
         }
         if (StringUtils.isEmpty(chefJson.dni)) {
             chefJson.dni = "00000000";
@@ -139,7 +140,7 @@ public class ChefRestService {
         private Location location;
         private String dni;
         private String phone;
-        private List<Chef.AttentionType> attentionTypes;
+        private List<AttentionType> attentionTypes;
 
         public static ChefJson of(Chef chef) {
             if (chef == null) {

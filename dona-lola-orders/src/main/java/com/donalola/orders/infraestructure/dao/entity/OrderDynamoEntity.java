@@ -1,6 +1,7 @@
 package com.donalola.orders.infraestructure.dao.entity;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.donalola.AttentionType;
 import com.donalola.FoodMenuID;
 import com.donalola.ItemMenuID;
 import com.donalola.commons.dynamodb.util.DynamoDBConverter;
@@ -51,6 +52,10 @@ public class OrderDynamoEntity implements Serializable {
     @DynamoDBAttribute(attributeName = "status")
     private String status;
 
+    @DynamoDBTypeConverted(converter = AttentionTypeConverter.class)
+    @DynamoDBAttribute(attributeName = "attentionType")
+    private AttentionType attentionType;
+
     @DynamoDBAttribute(attributeName = "items")
     private List<ItemEntity> items;
 
@@ -80,6 +85,18 @@ public class OrderDynamoEntity implements Serializable {
         @DynamoDBAttribute(attributeName = "itemMenuId")
         private ItemMenuID itemMenuID;
 
+    }
+
+    public static class AttentionTypeConverter implements DynamoDBTypeConverter<String, AttentionType> {
+        @Override
+        public String convert(AttentionType attentionType) {
+            return attentionType.name();
+        }
+
+        @Override
+        public AttentionType unconvert(String attentionTypeValue) {
+            return AttentionType.valueOf(attentionTypeValue);
+        }
     }
 
     public static class FoodMenuIDConverter implements DynamoDBTypeConverter<String, FoodMenuID> {

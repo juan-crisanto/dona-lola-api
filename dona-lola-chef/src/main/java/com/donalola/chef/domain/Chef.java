@@ -1,5 +1,6 @@
 package com.donalola.chef.domain;
 
+import com.donalola.AttentionType;
 import com.donalola.ChefID;
 import com.donalola.Geolocated;
 import com.donalola.Identity;
@@ -45,10 +46,6 @@ public class Chef implements Geolocated {
     private String phone;
 
     private List<AttentionType> attentionTypes;
-
-    public enum AttentionType {
-        DELIVER, PICK_UP
-    }
 
     public static Builder builder(ChefID chefID) {
         return new Builder(chefID);

@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
+import com.donalola.AttentionType;
 import com.donalola.ChefID;
 import com.donalola.Identity;
 import com.donalola.chef.domain.Chef;
@@ -78,7 +79,7 @@ public class ChefDynamoEntity {
         location.setLatitude(Double.valueOf(this.latitude));
         location.setLongitude(Double.valueOf(this.longitude));
         if (CollectionUtils.isEmpty(this.attentionTypes)) {
-            this.attentionTypes = Arrays.asList(Chef.AttentionType.PICK_UP.name());
+            this.attentionTypes = Arrays.asList(AttentionType.PICK_UP.name());
         }
         return Chef.builder(ChefID.of(this.id))
                 .Base64Image(this.image)
@@ -88,7 +89,7 @@ public class ChefDynamoEntity {
                 .Phone(this.phone)
                 .OpeningOn(this.openingSchedule)
                 .ClosingOn(this.closingSchedule)
-                .AttentionTypes(this.attentionTypes.parallelStream().map(s -> Chef.AttentionType.valueOf(s)).collect(Collectors.toList()))
+                .AttentionTypes(this.attentionTypes.parallelStream().map(s -> AttentionType.valueOf(s)).collect(Collectors.toList()))
                 .build();
     }
 

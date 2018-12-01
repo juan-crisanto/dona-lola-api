@@ -1,5 +1,6 @@
 package com.donalola.orders.infraestructure.dao.factory;
 
+import com.donalola.AttentionType;
 import com.donalola.CustomerDetails;
 import com.donalola.CustomerID;
 import com.donalola.FoodPlaceID;
@@ -21,8 +22,10 @@ public class FromEntityOrderFactory implements OrderFactory<OrderDynamoEntity> {
         order.setCustomerID(new CustomerID(source.getCustomerId()));
         order.setFoodPlaceID(new FoodPlaceID(source.getFoodPlaceId()));
         order.setCustomerDetails(CustomerDetails.of(source.getCustomerName(), null, null));
+        if (source.getAttentionType() == null) {
+            order.setAttentionType(AttentionType.PICK_UP);
+        }
         return order;
-
     }
 
     @Override
