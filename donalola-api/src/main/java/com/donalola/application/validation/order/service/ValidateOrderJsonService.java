@@ -1,13 +1,17 @@
 package com.donalola.application.validation.order.service;
 
 import com.donalola.CustomerDetails;
+import com.donalola.CustomerID;
 import com.donalola.ItemMenuDetails;
 import com.donalola.application.util.SecurityApplicationUtil;
 import com.donalola.application.validation.service.ValidateService;
 import com.donalola.authentication.AppUser;
+import com.donalola.customer.domain.Customer;
+import com.donalola.customer.domain.CustomerRepository;
 import com.donalola.foodmenu.FoodMenu;
 import com.donalola.foodmenu.domain.FoodMenuManager;
 import com.donalola.orders.application.OrderJson;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,15 +23,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Slf4j
 @Service
 public class ValidateOrderJsonService implements ValidateService {
 
     private final FoodMenuManager foodMenuManager;
+    private final CustomerRepository customerRepository;
 
-    public ValidateOrderJsonService(FoodMenuManager foodMenuManager) {
-        this.foodMenuManager = foodMenuManager;
-    }
 
     @Override
     public void validateJsonRequest(Object jsonRequest) {
@@ -44,6 +47,11 @@ public class ValidateOrderJsonService implements ValidateService {
         AppUser appUser = SecurityApplicationUtil.getUser();
         orderJson.setCustomerId(appUser.getUsername());
         orderJson.setCustomerDetails(CustomerDetails.of(appUser.getName(), appUser.getEmail(), StringUtils.EMPTY));
+        try {
+            Customer customer = this.customerRepository.get(new CustomerID(appUser.getUsername()));
+            orderJson.setCustomerDetails(customer.getCustomerDetails());
+        } catch (Exception e) {
+        }
     }
 
     private void completeAndValidateItems(OrderJson orderJson) {

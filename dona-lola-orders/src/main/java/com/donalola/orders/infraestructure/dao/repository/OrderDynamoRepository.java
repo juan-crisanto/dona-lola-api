@@ -73,6 +73,12 @@ public class OrderDynamoRepository implements OrderRepository, Orders {
     }
 
     @Override
+    public Orders listAllByFoodPlace(String foodPlaceId) {
+        List<OrderDynamoEntity> orderDynamoEntityList = this.orderDynamoCrudRepository.findAllByFoodPlaceId(foodPlaceId);
+        return createSimpleIterable(orderDynamoEntityList);
+    }
+
+    @Override
     public Orders listByCustomerID(CustomerID customerID) {
         List<OrderDynamoEntity> orderDynamoEntityList = this.orderDynamoCrudRepository.findAllByCustomerId(customerID.toString());
         return createSimpleIterable(orderDynamoEntityList);
@@ -123,6 +129,11 @@ public class OrderDynamoRepository implements OrderRepository, Orders {
 
         @Override
         public Orders listTodayFoodPlaceOrdersOnStatus(String foodPlaceId, Order.Status status) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public Orders listAllByFoodPlace(String foodPlaceId) {
             throw new UnsupportedOperationException();
         }
     }

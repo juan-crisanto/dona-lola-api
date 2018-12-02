@@ -98,17 +98,6 @@ public class FoodMenu implements Serializable {
         this.status = this.status.close();
     }
 
-    public void spent() {
-        if (CollectionUtils.isEmpty(this.getItems())) {
-            throw new IllegalStateException("Has no items to sell");
-        }
-        boolean stillItemsAvailable = this.getItems().parallelStream().anyMatch(Item::isAvailable);
-        if (stillItemsAvailable) {
-            throw new IllegalStateException("Items available yet");
-        }
-        this.status = this.status.spent();
-    }
-
     private void checkIfSoldOut() {
         boolean stillItemsAvailable = this.getItems().parallelStream().anyMatch(Item::isAvailable);
         if (!stillItemsAvailable) {
@@ -185,7 +174,7 @@ public class FoodMenu implements Serializable {
             if (this.takenOrders == null) {
                 this.takenOrders = 0;
             }
-            return (this.getQuantityAvailable() - this.getTakenOrders()) > 0;
+            return this.getQuantityAvailable() > 0;
         }
 
         public boolean hasEnough(Integer quantity) {

@@ -38,8 +38,14 @@ public class OrderManagerImpl implements OrderManager {
         return addedOrder;
     }
 
+    @Override
     public Orders listTodayOrdersFoodPlace(String foodPlaceId) {
         return this.orders.listTodayFoodPlaceOrders(foodPlaceId);
+    }
+
+    @Override
+    public Orders listAllOrdersByFoodPlace(String foodPlaceId) {
+        return this.orders.listAllByFoodPlace(foodPlaceId);
     }
 
     @Override

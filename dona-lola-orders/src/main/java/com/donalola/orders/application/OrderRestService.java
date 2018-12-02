@@ -83,6 +83,17 @@ public class OrderRestService extends BaseController {
         return orderJsonList;
     }
 
+    @GetMapping(value = "/me/history")
+    @ApiOperation(nickname = "Listar todas mis órdenes", value = "Listar la órdenes atentidas hasta el momento")
+    public List<OrderJson> allMeOrders(Principal principal) {
+        Orders orders = this.orderManager.listAllOrdersByFoodPlace(principal.getName());
+        List<OrderJson> orderJsonList = new ArrayList<>();
+        orders.forEach(order -> {
+            orderJsonList.add(this.orderJsonOrderFactory.create(order));
+        });
+        return orderJsonList;
+    }
+
     @GetMapping(value = "/user/status/{status}")
     @ApiOperation(nickname = "Listar mis órdenes en un estado específico", value = "Listar mis órdenes en un estado específico")
     public List<OrderJson> myOrdersOnStatus(@PathVariable String status, Principal principal) {

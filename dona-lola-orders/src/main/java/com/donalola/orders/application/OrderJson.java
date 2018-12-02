@@ -5,6 +5,7 @@ import com.donalola.CustomerDetails;
 import com.donalola.ItemMenuDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -17,10 +18,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @ApiModel(value = "Pedido", description = "Pedidos de comida")
-@JsonInclude(JsonInclude.Include.NON_NULL)
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderJson implements Serializable {
 
     private static final long serialVersionUID = 209762589648195576L;
@@ -29,9 +30,11 @@ public class OrderJson implements Serializable {
     private String id;
 
     @ApiModelProperty(value = "Fecha de creación", readOnly = true)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime createdDateTime;
 
     @ApiModelProperty(value = "Fecha de actualización", readOnly = true)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime modifiedDatetime;
 
     @JsonIgnore

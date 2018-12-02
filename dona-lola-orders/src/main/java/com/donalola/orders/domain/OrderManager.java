@@ -12,6 +12,8 @@ public interface OrderManager {
 
     Orders listTodayOrdersFoodPlace(String foodPlaceId);
 
+    Orders listAllOrdersByFoodPlace(String foodPlaceId);
+
     Orders listByCustomerOnStatus(CustomerID customerID, Order.Status status);
 
     Orders listByCustomer(CustomerID customerID);

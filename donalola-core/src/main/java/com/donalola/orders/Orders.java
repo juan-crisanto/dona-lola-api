@@ -6,6 +6,8 @@ public interface Orders extends Iterable<Order> {
 
     Orders listTodayFoodPlaceOrders(String foodPlaceId);
 
+    Orders listAllByFoodPlace(String foodPlaceId);
+
     Orders listByCustomerID(CustomerID customerID);
 
     Orders listByCustomerOnStatus(CustomerID customerID, Order.Status status);

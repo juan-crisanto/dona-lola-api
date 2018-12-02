@@ -36,6 +36,15 @@ public class OrderDynamoEntity implements Serializable {
     @DynamoDBAttribute(attributeName = "customerName")
     private String customerName;
 
+    @DynamoDBAttribute(attributeName = "customerEmail")
+    private String customerEmail;
+
+    @DynamoDBAttribute(attributeName = "customerPhone")
+    private String customerPhone;
+
+    @DynamoDBAttribute(attributeName = "customerIdentity")
+    private String customerIdentity;
+
     @DynamoDBAttribute(attributeName = "foodPlaceId")
     private String foodPlaceId;
 

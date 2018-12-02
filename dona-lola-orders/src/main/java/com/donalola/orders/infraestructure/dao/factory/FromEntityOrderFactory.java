@@ -21,7 +21,7 @@ public class FromEntityOrderFactory implements OrderFactory<OrderDynamoEntity> {
         Order order = OrderEntityToDomainMapper.MAPPER.toDomain(source);
         order.setCustomerID(new CustomerID(source.getCustomerId()));
         order.setFoodPlaceID(new FoodPlaceID(source.getFoodPlaceId()));
-        order.setCustomerDetails(CustomerDetails.of(source.getCustomerName(), null, null));
+        order.setCustomerDetails(CustomerDetails.of(source.getCustomerName(), source.getCustomerEmail(), source.getCustomerPhone()));
         if (source.getAttentionType() == null) {
             order.setAttentionType(AttentionType.PICK_UP);
         }
@@ -40,6 +40,8 @@ public class FromEntityOrderFactory implements OrderFactory<OrderDynamoEntity> {
         entity.setCustomerId(order.getCustomerID().toString());
         entity.setFoodPlaceId(order.getFoodPlaceID().toString());
         entity.setCustomerName(order.getCustomerDetails().getName());
+        entity.setCustomerEmail(order.getCustomerDetails().getEmail());
+        entity.setCustomerPhone(order.getCustomerDetails().getPhone());
         return entity;
     }
 }
